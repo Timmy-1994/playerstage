@@ -1,0 +1,30 @@
+@shopid = 23056754
+@url = https://shopee.tw/api/v4
+
+
+### test get image '_tn' suffix meaning get the size for thumbnail
+@imgHash = 10b1e812708dcb7a4be726672d3ba3e5
+GET https://cf.shopee.tw/file/{{imgHash}}
+
+### search products
+GET {{url}}/search/search_items
+?by=pop
+&entry_point=ShopByPDP
+&match_id={{shopid}}
+&order=desc
+&page_type=shop
+&scenario=PAGE_OTHERS
+&version=2
+&page=11
+&newest=330
+User-Agent: 'Googlebot'
+Form: ''
+
+### get produt detail 
+GET {{url}}/item/get
+?itemid=9703364587
+&shopid={{shopid}}
+User-Agent: 'Googlebot'
+
+### 賣場分類 use : shop_catgory_id
+GET {{url}}/shop/get_categories?limit=20&offset=0&shopid={{shopid}}

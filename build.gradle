@@ -19,13 +19,17 @@ repositories {
 }
 
 dependencies {
+	
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+	implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 test {

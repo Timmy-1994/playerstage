@@ -1,0 +1,38 @@
+version: '2.2'
+services:
+  #   web:
+  #     build:
+  #       context: ..
+  #     image: live
+  #     environment:
+  #       TZ: Asia/Taipei
+  #       CATALINA_OPTS: "-Xms1024m -Xmx4096m -XX:PermSize=512m -XX:MaxPermSize=1024m"
+  #       JDPA_ADDRESS: '8000'
+  #       JDPA_TRANSPORT: dt_socket
+  #     ports:
+  #       - '8000:8000'
+  #       - '8080:8080'
+  #       - '443:8443'
+  #     entrypoint:
+  #       - catalina.sh
+  #       - jpda
+  #       - run
+  #     volumes:
+  #       - ./dream/dream_keystore:/usr/local/tomcat/conf/keystore
+  #       - ./dream/server.xml:/usr/local/tomcat/conf/server.xml
+  #       - ./dream/exploded/:/usr/local/tomcat/webapps/live/
+
+  db:
+    image: mariadb:10.4
+    environment:
+      TZ: Asia/Taipei
+      MYSQL_ROOT_PASSWORD: '123456'
+    command: --character-set-server=utf8mb4
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./database/mariadb.cnf:/etc/mysql/mariadb.cnf
+      - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
+volumes:
+  db:
