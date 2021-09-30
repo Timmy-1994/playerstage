@@ -1,3 +1,7 @@
+
+
+-- inser products
+
 -- INSERT INTO products (
 --     `uuid`,
 --     `name`,
@@ -17,5 +21,7 @@
 --     'test_model_name'
 -- )
 
+
+-- inser products
 
 select * from products;
