@@ -3,8 +3,8 @@ package com.playerstage.playerstage;
 
 import java.util.*;
 
-import com.playerstage.playerstage.mappers.ProductMapper;
-import com.playerstage.playerstage.models.Product;
+import com.playerstage.playerstage.mappers.ProductsMapper;
+import com.playerstage.playerstage.models.Products;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -28,10 +28,10 @@ public class ProductAcessingApplication implements ApplicationRunner {
     RestTemplate restTemplate;
     
     @Autowired
-    ProductMapper productMapper;
+    ProductsMapper ProductsMapper;
 
-    private static final long limit = 30;
-    private static final String shopid = "23056754";
+    // private static final long limit = 30;
+    // private static final String shopid = "23056754";
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -39,19 +39,25 @@ public class ProductAcessingApplication implements ApplicationRunner {
         
         try {
     
-            Product pojo =  new Product();
-            pojo.setUuid(UUID.randomUUID());
-            pojo.setName("test");
-            pojo.setBrand("brand");
-            pojo.setIs_pre_order(false);
-            pojo.setRate((float) 0);
-            pojo.setDescription("description");
-            pojo.setModel_name("model_name");
+            // Product pojo =  new Product();
+            // pojo.setUuid(UUID.randomUUID());
+            // pojo.setName("test");
+            // pojo.setBrand("brand");
+            // pojo.setIs_pre_order(false);
+            // pojo.setRate((float) 0);
+            // pojo.setDescription("description");
+            // pojo.setModel_name("model_name");
             
-            productMapper.addProduct(pojo);
+            // productMapper.addProduct(pojo);
 
-            var allPs = productMapper.findAll();
-            log.info("[test allPs] {}" ,allPs);
+            // var allPs = productMapper.findAll();
+            // log.info("[ test allPs ] {}" ,allPs);
+            
+            var test_uuid = UUID.fromString("8d7e7e7c-6912-4f3f-a818-61ff5b7d70fb");
+            
+            log.info("[ test findById ] {}0" ,ProductsMapper.selectByPrimaryKey(test_uuid));
+
+            Products ProductModel =  new Products();
             
             // int page = 0;
 
