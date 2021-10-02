@@ -1,11 +1,27 @@
-* use `liquidbase` for sql migration
+### TODO
+- [] `liquidbase` for sql migration
 [usage example](https://github.com/Wizzard-sudo/LiquidBaseExample/tree/master/src/main/resources)
+- [] check the syntas in `build.gradle` about dependencies ...etc
 
-* `mybatis` reverse engineering with gradle - config example
-    - gradle offical plugin is without parameters deliver ; use this way to define a task to gernerate mappers & model
-    [MyBatisGenerator-Tool](https://github.com/kingcos/MyBatisGenerator-Tool)
-    - about confgurations :
-        [columnOverride](https://mybatis.org/generator/configreference/columnOverride.html)
+### `mybatis` reverse engineering
+* [MyBatisGenerator-Tool](https://github.com/kingcos/MyBatisGenerator-Tool)
+    Gradle offical plugin that I can find are without parameters deliver functionality.
+    Therefore, define ant task to gernerate mappers & model files.
+
+* `typeHandler`
+    `org.mybatis.spring.boot` will use the package path in `application.properties`. just define the specify `columnOverride` in `mybatisGeneratorConfig.xml`.
+
+* `typeResolver`
+    According to officail docuement : 
+    > Classpath Issues
+        Initially, the plugin classpath is very limited - it only contains MyBatis generator itself. If you need to add something to the plugin’s classpath (for example, a JDBC driver)
+
+    Not only define `type="${package}"` on `typeResolver` node in `mybatisGeneratorConfig.xml` but also need add the `jar` of `typeResolver.java` as dependency to `build.gradle` for building task
+     
+* `mybatisGeneratorConfig.xml`
+    [spring-boot-starter](https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
+    [columnOverride](https://mybatis.org/generator/configreference/columnOverride.html)
+    - simple template :
         ```xml
             <!-- 配置需要生成程式碼的資料庫表 -->
             <table tableName="pms_brand" domainObjectName="PmsBrand"

@@ -11,12 +11,12 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="${driverClass}"
-                        connectionURL="${connectionURL}"
+                        connectionURL="${connectionURL}?tinyInt1isBit=false"
                         userId="${userId}"
                         password="${password}">
         </jdbcConnection>
 
-        <javaTypeResolver>
+        <javaTypeResolver type="com.playerstage.playerstage.config.mybatis.CustomTypeResolver">
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 

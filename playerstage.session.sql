@@ -1,27 +1,31 @@
 
+--- PRODUCTS
 
--- inser products
+-- @block insert products
+INSERT INTO products (
+    `uuid`,
+    `name`,
+    `brand`,
+    `is_pre_order`,
+    `rate`,
+    `description`,
+    `model_name`
+)
+VALUES(
+    UNHEX(REPLACE(UUID(),'-','')),
+    'test_name',
+    'test_brand',
+    0,
+    0,
+    'test_description',
+    'test_model_name'
+)
 
--- INSERT INTO products (
---     `uuid`,
---     `name`,
---     `brand`,
---     `is_pre_order`,
---     `rate`,
---     `description`,
---     `model_name`
--- )
--- VALUES(
---     UNHEX(REPLACE(UUID(),'-','')),
---     'test_name',
---     'test_brand',
---     0,
---     0,
---     'test_description',
---     'test_model_name'
--- )
+-- @block delete all products
+DELETE from products;
 
+-- @block selct all products
+SELECT * from products;
 
--- inser products
-
-select * from products;
+-- @block aler table
+ALTER TABLE `products` MODIFY `ctime` DATETIME DEFAULT NOW();

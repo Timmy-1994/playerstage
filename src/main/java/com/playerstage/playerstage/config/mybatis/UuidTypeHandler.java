@@ -1,5 +1,4 @@
-package com.playerstage.playerstage.mappers.typeHandlers;
-
+package com.playerstage.playerstage.config.mybatis;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
