@@ -1,7 +1,5 @@
 ### TODO
-- [] `liquidbase` for sql migration
-[usage example](https://github.com/Wizzard-sudo/LiquidBaseExample/tree/master/src/main/resources)
-- [] check the syntas in `build.gradle` about dependencies ...etc
+- [] check the syntas in `build.gradle` about dependencies duplicate ...etc
 
 ### `mybatis` reverse engineering
 * [MyBatisGenerator-Tool](https://github.com/kingcos/MyBatisGenerator-Tool)
@@ -54,3 +52,6 @@
                 </columnOverride>
             </table>
         ```
+
+### [`flyway` DB migration](https://flywaydb.org/documentation/usage/gradle/)
+* [migration sql should name as `V1__*.sql`](https://stackoverflow.com/questions/53173291/flyway-cannot-find-migrations-location-in)

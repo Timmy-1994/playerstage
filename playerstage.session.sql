@@ -27,5 +27,11 @@ DELETE from products;
 -- @block selct all products
 SELECT * from products;
 
--- @block aler table
+-- @block alert table
 ALTER TABLE `products` MODIFY `ctime` DATETIME DEFAULT NOW();
+
+-- @block show schema
+SHOW COLUMNS FROM `products`
+
+-- @block DROP
+DROP DATABASE `product_images`
