@@ -5,9 +5,10 @@ import java.util.List;
 import com.playerstage.playerstage.models.Product;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.mapstruct.Mapper;
+
 
 @Mapper
 public interface ProductMapper {

@@ -1,5 +1,6 @@
 package com.playerstage.playerstage;
 
+import com.sun.nio.sctp.SctpSocketOption;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,5 +24,7 @@ public class PlayerstageApplication {
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		// Do any additional configuration here
 		return builder.build();
+
 	}
+
 }
