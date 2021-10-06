@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.playerstage.playerstage.dao.product_modelsMapper">
+  <resultMap id="BaseResultMap" type="com.playerstage.playerstage.models.product_models">
+    <id column="uuid" jdbcType="BINARY" property="uuid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="discount" jdbcType="REAL" property="discount" />
+    <result column="total_stock" jdbcType="INTEGER" property="totalStock" />
+    <result column="promote_stock" jdbcType="INTEGER" property="promoteStock" />
+    <result column="sold" jdbcType="INTEGER" property="sold" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.playerstage.playerstage.models.product_models">
+    <result column="products_id" jdbcType="BINARY" property="productsId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uuid, name, price, discount, total_stock, promote_stock, sold
+  </sql>
+  <sql id="Blob_Column_List">
+    products_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="byte[]" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product_models
+    where uuid = #{uuid,jdbcType=BINARY}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="byte[]">
+    delete from product_models
+    where uuid = #{uuid,jdbcType=BINARY}
+  </delete>
+  <insert id="insert" parameterType="com.playerstage.playerstage.models.product_models">
+    insert into product_models (uuid, name, price, 
+      discount, total_stock, promote_stock, 
+      sold, products_id)
+    values (#{uuid,jdbcType=BINARY}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
+      #{discount,jdbcType=REAL}, #{totalStock,jdbcType=INTEGER}, #{promoteStock,jdbcType=INTEGER}, 
+      #{sold,jdbcType=INTEGER}, #{productsId,jdbcType=BINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.playerstage.playerstage.models.product_models">
+    insert into product_models
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        uuid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="totalStock != null">
+        total_stock,
+      </if>
+      <if test="promoteStock != null">
+        promote_stock,
+      </if>
+      <if test="sold != null">
+        sold,
+      </if>
+      <if test="productsId != null">
+        products_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=BINARY},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="totalStock != null">
+        #{totalStock,jdbcType=INTEGER},
+      </if>
+      <if test="promoteStock != null">
+        #{promoteStock,jdbcType=INTEGER},
+      </if>
+      <if test="sold != null">
+        #{sold,jdbcType=INTEGER},
+      </if>
+      <if test="productsId != null">
+        #{productsId,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.playerstage.playerstage.models.product_models">
+    update product_models
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="totalStock != null">
+        total_stock = #{totalStock,jdbcType=INTEGER},
+      </if>
+      <if test="promoteStock != null">
+        promote_stock = #{promoteStock,jdbcType=INTEGER},
+      </if>
+      <if test="sold != null">
+        sold = #{sold,jdbcType=INTEGER},
+      </if>
+      <if test="productsId != null">
+        products_id = #{productsId,jdbcType=BINARY},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=BINARY}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.playerstage.playerstage.models.product_models">
+    update product_models
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=REAL},
+      total_stock = #{totalStock,jdbcType=INTEGER},
+      promote_stock = #{promoteStock,jdbcType=INTEGER},
+      sold = #{sold,jdbcType=INTEGER},
+      products_id = #{productsId,jdbcType=BINARY}
+    where uuid = #{uuid,jdbcType=BINARY}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.playerstage.playerstage.models.product_models">
+    update product_models
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=REAL},
+      total_stock = #{totalStock,jdbcType=INTEGER},
+      promote_stock = #{promoteStock,jdbcType=INTEGER},
+      sold = #{sold,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=BINARY}
+  </update>
+</mapper>
