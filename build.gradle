@@ -44,14 +44,14 @@ dependencies {
 def jdbcDriver = "org.mariadb.jdbc.Driver"
 def props = new Properties()
 file("/src/main/resources/application.properties").withInputStream { props.load(it) }
-	
+
 test {
 	useJUnitPlatform()
 }
 
 tasks.register("mbgenerator") {
-	dependsOn(jar) 
-	
+	dependsOn(jar)
+
 	doLast {
 		ant.properties['connectionURL'] = props["spring.datasource.url"]
 		ant.properties['userId'] = props["spring.datasource.username"]

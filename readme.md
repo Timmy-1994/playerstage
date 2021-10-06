@@ -55,3 +55,9 @@
 
 ### [`flyway` DB migration](https://flywaydb.org/documentation/usage/gradle/)
 * [migration sql should name as `V1__*.sql`](https://stackoverflow.com/questions/53173291/flyway-cannot-find-migrations-location-in)
+
+
+
+### file 
+[UrlResource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/io/UrlResource.html)
+[ImageSaving](http://www.java2s.com/example/java-utility-method/url-load/saveimage-string-imageurl-string-destinationfile-f9579.html)

@@ -35,6 +35,10 @@
 
         <table tableName="%">
             <columnOverride column="uuid" javaType="java.util.UUID"/>
+            <columnOverride column="products_id" javaType="java.util.UUID"/>
+            <columnOverride column="shipments_id" javaType="java.util.UUID"/>
+            <columnOverride column="categories_id" javaType="java.util.UUID"/>
+            <columnOverride column="product_model_id" javaType="java.util.UUID"/>
         </table>
     </context>
 </generatorConfiguration>

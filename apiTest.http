@@ -1,6 +1,8 @@
 @shopid = 23056754
 @url = https://shopee.tw/api/v4
 
+# 【玩家殿堂】Razer-Gigantus-V2-雷蛇-巨甲蟲V2-布面-電競滑鼠墊
+@testItemId = 9703364587 
 
 ### test get image '_tn' suffix meaning get the size for thumbnail
 @imgHash = 10b1e812708dcb7a4be726672d3ba3e5
@@ -22,8 +24,18 @@ Form: ''
 
 ### get produt detail 
 GET {{url}}/item/get
-?itemid=9703364587
+?itemid={{testItemId}}
 &shopid={{shopid}}
+User-Agent: 'Googlebot'
+
+### get product shippment
+GET {{url}}/pdp/get_shipping
+?city=
+&district=
+&itemid={{testItemId}}
+&shopid={{shopid}}
+&state=
+&town=
 User-Agent: 'Googlebot'
 
 ### 賣場分類 use : shop_catgory_id

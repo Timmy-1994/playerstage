@@ -29,9 +29,13 @@ SELECT * from products;
 
 -- @block alert table
 ALTER TABLE `products` MODIFY `ctime` DATETIME DEFAULT NOW();
+ALTER TABLE `products` CHANGE COLUMN `rate` `rating` FLOAT DEFAULT(0);
+
 
 -- @block show schema
 SHOW COLUMNS FROM `products`
 
 -- @block DROP
 DROP DATABASE `product_images`
+
+
