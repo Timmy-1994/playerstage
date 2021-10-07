@@ -1,16 +1,22 @@
 buildscript {
+	repositories {
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
 	dependencies {
 		// mybatis-generator 插件路径
-		classpath 'gradle.plugin.com.arenagod.gradle:mybatis-generator-plugin:1.4'
+		classpath "gradle.plugin.com.thinkimi.gradle:mybatis-generator-plugin:2.3"
 	}
 }
 plugins {
 	id 'org.springframework.boot' version '2.5.4'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "com.thinkimi.gradle.MybatisGenerator" version "2.3"
 }
 //引入 mybatis-generator 插件
-apply plugin: "com.arenagod.gradle.MybatisGenerator"
+apply plugin: "com.thinkimi.gradle.MybatisGenerator"
 
 group = 'com.playerstage'
 version = '0.0.1-SNAPSHOT'
@@ -35,11 +41,12 @@ dependencies {
 	implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.generator:mybatis-generator-core:1.3.7'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation'org.mybatis.generator:mybatis-generator-core:1.3.2'
+
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }

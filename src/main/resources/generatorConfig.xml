@@ -38,7 +38,7 @@
 
         <!--生成Dao类存放位置,mapper接口生成的位置-->
         <!--同样Mac用户：targetProject 为全路径（/Users/murasakiseifu/mybatisGenerator/src/main/java）-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.playerstage.playerstage.dao" targetProject="src/main/java">
+        <javaClientGenerator  targetPackage="com.playerstage.playerstage.dao" targetProject="src/main/java" type="MIXEDMAPPER">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>

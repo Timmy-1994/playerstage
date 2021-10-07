@@ -19,26 +19,6 @@
   <sql id="Blob_Column_List">
     products_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="byte[]" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from product_models
-    where uuid = #{uuid,jdbcType=BINARY}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="byte[]">
-    delete from product_models
-    where uuid = #{uuid,jdbcType=BINARY}
-  </delete>
-  <insert id="insert" parameterType="com.playerstage.playerstage.models.product_models">
-    insert into product_models (uuid, name, price, 
-      discount, total_stock, promote_stock, 
-      sold, products_id)
-    values (#{uuid,jdbcType=BINARY}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{discount,jdbcType=REAL}, #{totalStock,jdbcType=INTEGER}, #{promoteStock,jdbcType=INTEGER}, 
-      #{sold,jdbcType=INTEGER}, #{productsId,jdbcType=BINARY})
-  </insert>
   <insert id="insertSelective" parameterType="com.playerstage.playerstage.models.product_models">
     insert into product_models
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -119,27 +99,6 @@
         products_id = #{productsId,jdbcType=BINARY},
       </if>
     </set>
-    where uuid = #{uuid,jdbcType=BINARY}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.playerstage.playerstage.models.product_models">
-    update product_models
-    set name = #{name,jdbcType=VARCHAR},
-      price = #{price,jdbcType=INTEGER},
-      discount = #{discount,jdbcType=REAL},
-      total_stock = #{totalStock,jdbcType=INTEGER},
-      promote_stock = #{promoteStock,jdbcType=INTEGER},
-      sold = #{sold,jdbcType=INTEGER},
-      products_id = #{productsId,jdbcType=BINARY}
-    where uuid = #{uuid,jdbcType=BINARY}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.playerstage.playerstage.models.product_models">
-    update product_models
-    set name = #{name,jdbcType=VARCHAR},
-      price = #{price,jdbcType=INTEGER},
-      discount = #{discount,jdbcType=REAL},
-      total_stock = #{totalStock,jdbcType=INTEGER},
-      promote_stock = #{promoteStock,jdbcType=INTEGER},
-      sold = #{sold,jdbcType=INTEGER}
     where uuid = #{uuid,jdbcType=BINARY}
   </update>
 </mapper>

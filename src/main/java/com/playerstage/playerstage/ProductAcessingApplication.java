@@ -4,21 +4,13 @@ package com.playerstage.playerstage;
 import java.util.*;
 
 import com.playerstage.playerstage.mappers.ProductMapper;
-import com.playerstage.playerstage.models.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.stereotype.Component;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.*;
 
 @Slf4j
 @Component
