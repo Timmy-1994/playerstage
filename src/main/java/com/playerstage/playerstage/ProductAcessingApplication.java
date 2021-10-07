@@ -9,9 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.playerstage.playerstage.mappers.*;
 import com.playerstage.playerstage.models.*;
@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpEntity;
@@ -62,19 +61,19 @@ public class ProductAcessingApplication implements ApplicationRunner {
     private static final String shopid = "23056754";
 
     @Override
-    @Transactional
     public void run(ApplicationArguments args) throws Exception {
-
 
         try {
 
             Categories categories = new Categories();
+            CategoriesExample categoriesExample = new CategoriesExample();
             PrdouctsShipmentsIntermediary prdouctsShipmentsIntermediary = new PrdouctsShipmentsIntermediary();
             ProductImages productImages = new ProductImages();
             ProductModels productModels = new ProductModels();
             Products products =  new Products();
             ProductsCategoriesIntermediary productsCategoriesIntermediary = new ProductsCategoriesIntermediary();
             Shipments shipments  = new Shipments();
+            ShipmentsExample shipmentsExample = new ShipmentsExample();
 
             int page = 0;
 
@@ -89,6 +88,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
 
             while(true){
 
+                log.info("[ fetch item_ids from {} ,current page is {}]",PRODUCT_LIST,page);
                 ResponseEntity<String> productListResEntity = restTemplate.exchange(
                     UriComponentsBuilder.fromHttpUrl(PRODUCT_LIST)
                         .queryParam("by", "pop")
@@ -111,8 +111,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
                     throw new Exception("request fail");
                 }
 
-                JSONObject listObj = JSONObject.fromObject(productListResEntity.getBody());
-                JSONArray listArray = listObj.getJSONArray("items");
+                JSONArray listArray = JSONObject.fromObject(productListResEntity.getBody()).getJSONArray("items");
 
                 // crawler products done
                 if(listArray.isEmpty()){
@@ -124,8 +123,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
                     JSONObject productBasicJsonObj = JSONObject.fromObject(object).getJSONObject("item_basic");
                     String itemid = productBasicJsonObj.getString("itemid");
 
-                    // log.info("[var item_id] {}" , itemid);
-
+                    log.info("[ fetch item_id = {} 's detail from {} ]" ,itemid,PRODUCT_DETAIL);
                     ResponseEntity<String> productDetailResEntity = restTemplate.exchange(
                         UriComponentsBuilder.fromHttpUrl(PRODUCT_DETAIL)
                             .queryParam("itemid", itemid)
@@ -136,18 +134,8 @@ public class ProductAcessingApplication implements ApplicationRunner {
                         String.class
                     );
 
-                    if (productDetailResEntity.getStatusCodeValue() != 200) {
-                        throw new Exception("request fail");
-                    }
-
-                    JSONObject detailObj = JSONObject.fromObject(productDetailResEntity.getBody());
-                    if(detailObj.get("error") == null){
-                        throw new Exception(" ${itemid} access detail fail");
-                    }
-                    JSONObject detailDataJsonObj = detailObj.getJSONObject("data");
+                    JSONObject detailDataJsonObj = JSONObject.fromObject(productDetailResEntity.getBody()).getJSONObject("data");
                     
-                    log.info("[ res detail ] {}" , detailDataJsonObj.toString(4));
-
                     // hadle saving products
                     UUID productUuid = UUID.randomUUID();
 
@@ -161,6 +149,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
                     products.setOriginItemId(itemid);
                     products.setSold(detailDataJsonObj.getInt("sold"));
 
+                    log.info("[ fetch item_id = {} 's shipement from {} ]" ,itemid,PRODUCT_SHIPMENT);
                     ResponseEntity<String> shipmentsResEn = restTemplate.exchange(
                         UriComponentsBuilder.fromHttpUrl(PRODUCT_SHIPMENT)
                             .queryParam("itemid", itemid)
@@ -172,30 +161,46 @@ public class ProductAcessingApplication implements ApplicationRunner {
                     );
 
                     JSONObject shipmentsDataJsonObj = JSONObject.fromObject(shipmentsResEn.getBody()).getJSONObject("data");
-                    int producShippingMiniSpend = shipmentsDataJsonObj.getJSONObject("product_info").getJSONObject("free_shipping").getInt("min_spend");
-                    products.setFreeShippingMiniSpend(producShippingMiniSpend/10000);
+
+                    int producShippingMiniSpend = 0;
+                    JSONObject freeShippingJsonObj = shipmentsDataJsonObj.getJSONObject("product_info").getJSONObject("free_shipping");
+                    
+                    if(!freeShippingJsonObj.isNullObject()){
+                        Object minSpendJsonObject = freeShippingJsonObj.get("min_spend");
+                        if(!(minSpendJsonObject instanceof JSONNull)){
+                            // log.info("[minSpendJsonObject.toString()] {}", Integer.valueOf(prductInfoJsonObj.toString()));
+                            producShippingMiniSpend = Integer.valueOf(minSpendJsonObject.toString())/10000;
+                        }
+                    }
+
+                    products.setFreeShippingMiniSpend(producShippingMiniSpend);
 
                     productsMapper.insert(products);
 
                     // hadle saving Shipments
-                    Map<String,UUID> shipmentNameUUIDMap = shipmentsMapper.selectAll()
-                        .stream()
-                        .collect(Collectors.toMap(s ->s.getName(),s ->s.getUuid()));
-
                     for(Object o : shipmentsDataJsonObj.getJSONArray("ungrouped_channel_infos")){
                         JSONObject shipJSONObj = JSONObject.fromObject(o);
                         String shipName = shipJSONObj.getString("name");
                         UUID shipUuid = UUID.randomUUID();
-
-                        if(shipmentNameUUIDMap.keySet().contains(shipName)){  
-                            shipUuid = shipmentNameUUIDMap.get(shipName);
+                        
+                        // query exist shipment
+                        shipmentsExample.createCriteria().andNameEqualTo(shipName);
+                        List<Shipments> shipmentList = shipmentsMapper.selectByExample(shipmentsExample);
+                        
+                        if(shipmentList.size()==1){ 
+                            shipUuid = shipmentList.get(0).getUuid();
                         }else{
                             shipments.setUuid(shipUuid);
                             shipments.setName(shipName);
                             shipments.setMaxPrice(shipJSONObj.getInt("max_price")/10000);
                             shipments.setMinPrice(shipJSONObj.getInt("min_price")/10000);
-                            shipments.setEstimatedMaxDays((int) shipJSONObj.getJSONObject("channel_delivery_info").getLong("estimated_delivery_time_max"));
-                            shipments.setEstimatedMinDays((int) shipJSONObj.getJSONObject("channel_delivery_info").getLong("estimated_delivery_time_min"));
+                            
+                            JSONObject channelDeliveryInfoJsonObj = shipJSONObj.getJSONObject("channel_delivery_info");
+                            int setEstimatedMinDays = channelDeliveryInfoJsonObj.get("estimated_delivery_time_max") instanceof JSONNull ? 0 : channelDeliveryInfoJsonObj.getInt("estimated_delivery_time_max");
+                            int setEstimatedMaxDays = channelDeliveryInfoJsonObj.get("estimated_delivery_time_min") instanceof JSONNull ? 0 : channelDeliveryInfoJsonObj.getInt("estimated_delivery_time_min");
+                            
+                            shipments.setEstimatedMinDays(setEstimatedMinDays);
+                            shipments.setEstimatedMaxDays(setEstimatedMaxDays);
                             shipmentsMapper.insert(shipments);
                         }
 
@@ -206,17 +211,16 @@ public class ProductAcessingApplication implements ApplicationRunner {
                     }
 
                     // saving Categories
-                    Map<String,UUID> categoryNameUUIDMap = categoriesMapper.selectAll()
-                        .stream()
-                        .collect(Collectors.toMap(s ->s.getName(),s ->s.getUuid()));
-
                     for(Object o : detailDataJsonObj.getJSONArray("categories")){
                         JSONObject cateJSONObj = JSONObject.fromObject(o);
                         String cateName = cateJSONObj.getString("display_name");
                         UUID cateUUID = UUID.randomUUID();
 
-                        if(categoryNameUUIDMap.keySet().contains(cateName)){
-                            cateUUID = categoryNameUUIDMap.get(cateName);
+                        categoriesExample.createCriteria().andNameEqualTo(cateName);
+                        List<Categories> cateList = categoriesMapper.selectByExample(categoriesExample);
+
+                        if(cateList.size()==1){
+                            cateUUID = cateList.get(0).getUuid();
                         }else{
                             categories.setName(cateName);
                             categories.setUuid(cateUUID);
@@ -231,10 +235,15 @@ public class ProductAcessingApplication implements ApplicationRunner {
 
                     // save models
                     JSONObject tierVariationsJsonObj = detailDataJsonObj.getJSONArray("tier_variations").getJSONObject(0);
+                    JSONArray tierVariationsJsonOptionsArr = tierVariationsJsonObj.getJSONArray("options");
                     Map<String,String> optionsImageHash = new HashMap<String,String>();
-                    for (int i = 0; i < tierVariationsJsonObj.getJSONArray("options").size(); i++) {
+                    for (int i = 0; i < tierVariationsJsonOptionsArr.size(); i++) {
+                        String key = tierVariationsJsonOptionsArr.get(i).toString();
+                        if(key.isEmpty()){
+                            continue;
+                        }
                         optionsImageHash.put(
-                            tierVariationsJsonObj.getJSONArray("options").get(i).toString(),
+                            key,
                             tierVariationsJsonObj.getJSONArray("images").get(i).toString()
                         );
                     }
@@ -249,7 +258,11 @@ public class ProductAcessingApplication implements ApplicationRunner {
                         productModels.setTotalStock(modelJsonObj.getInt("stock"));
                         productModels.setPromoteStock(0);
                         productModels.setProductsId(productUuid);
-                        productModels.setImageHash(optionsImageHash.get(productModels.getName()));
+                        
+                        String imageHash = optionsImageHash.get(productModels.getName());
+                        if(imageHash != null){
+                            productModels.setImageHash(imageHash);
+                        }
                         
                         productModelsMapper.insert(productModels);
                     }
@@ -272,11 +285,11 @@ public class ProductAcessingApplication implements ApplicationRunner {
                         productImages.setImageHash(imageHash);
                         productImagesMapper.insert(productImages);
                     }
-                    
+                    Thread.sleep(1000);
                 }                
 
                 page+=1;
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             }
 
 
