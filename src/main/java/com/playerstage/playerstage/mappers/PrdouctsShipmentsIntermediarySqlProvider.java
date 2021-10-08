@@ -28,8 +28,8 @@ public class PrdouctsShipmentsIntermediarySqlProvider {
         SQL sql = new SQL();
         sql.INSERT_INTO("prdoucts_shipments_intermediary");
         
-        if (record.getId() != null) {
-            sql.VALUES("id", "#{id,jdbcType=INTEGER}");
+        if (record.getUuid() != null) {
+            sql.VALUES("uuid", "#{uuid,jdbcType=BINARY}");
         }
         
         if (record.getShipmentsId() != null) {
@@ -46,9 +46,9 @@ public class PrdouctsShipmentsIntermediarySqlProvider {
     public String selectByExampleWithBLOBs(PrdouctsShipmentsIntermediaryExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
-            sql.SELECT_DISTINCT("id");
+            sql.SELECT_DISTINCT("uuid");
         } else {
-            sql.SELECT("id");
+            sql.SELECT("uuid");
         }
         sql.SELECT("shipments_id");
         sql.SELECT("products_id");
@@ -65,9 +65,9 @@ public class PrdouctsShipmentsIntermediarySqlProvider {
     public String selectByExample(PrdouctsShipmentsIntermediaryExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
-            sql.SELECT_DISTINCT("id");
+            sql.SELECT_DISTINCT("uuid");
         } else {
-            sql.SELECT("id");
+            sql.SELECT("uuid");
         }
         sql.FROM("prdoucts_shipments_intermediary");
         applyWhere(sql, example, false);
@@ -86,8 +86,8 @@ public class PrdouctsShipmentsIntermediarySqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("prdoucts_shipments_intermediary");
         
-        if (record.getId() != null) {
-            sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        if (record.getUuid() != null) {
+            sql.SET("uuid = #{record.uuid,jdbcType=BINARY}");
         }
         
         if (record.getShipmentsId() != null) {
@@ -106,7 +106,7 @@ public class PrdouctsShipmentsIntermediarySqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("prdoucts_shipments_intermediary");
         
-        sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        sql.SET("uuid = #{record.uuid,jdbcType=BINARY}");
         sql.SET("shipments_id = #{record.shipmentsId,jdbcType=BINARY}");
         sql.SET("products_id = #{record.productsId,jdbcType=BINARY}");
         
@@ -119,7 +119,7 @@ public class PrdouctsShipmentsIntermediarySqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("prdoucts_shipments_intermediary");
         
-        sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        sql.SET("uuid = #{record.uuid,jdbcType=BINARY}");
         
         PrdouctsShipmentsIntermediaryExample example = (PrdouctsShipmentsIntermediaryExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -138,7 +138,7 @@ public class PrdouctsShipmentsIntermediarySqlProvider {
             sql.SET("products_id = #{productsId,jdbcType=BINARY}");
         }
         
-        sql.WHERE("id = #{id,jdbcType=INTEGER}");
+        sql.WHERE("uuid = #{uuid,jdbcType=BINARY}");
         
         return sql.toString();
     }

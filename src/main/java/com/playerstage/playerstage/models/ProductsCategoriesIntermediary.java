@@ -3,18 +3,18 @@ package com.playerstage.playerstage.models;
 import java.util.UUID;
 
 public class ProductsCategoriesIntermediary {
-    private Integer id;
+    private UUID uuid;
 
     private UUID categoriesId;
 
     private UUID productsId;
 
-    public Integer getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public UUID getCategoriesId() {

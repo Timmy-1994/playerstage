@@ -28,8 +28,8 @@ public class ProductImagesSqlProvider {
         SQL sql = new SQL();
         sql.INSERT_INTO("product_images");
         
-        if (record.getId() != null) {
-            sql.VALUES("id", "#{id,jdbcType=INTEGER}");
+        if (record.getUuid() != null) {
+            sql.VALUES("uuid", "#{uuid,jdbcType=BINARY}");
         }
         
         if (record.getIsCover() != null) {
@@ -50,9 +50,9 @@ public class ProductImagesSqlProvider {
     public String selectByExampleWithBLOBs(ProductImagesExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
-            sql.SELECT_DISTINCT("id");
+            sql.SELECT_DISTINCT("uuid");
         } else {
-            sql.SELECT("id");
+            sql.SELECT("uuid");
         }
         sql.SELECT("is_cover");
         sql.SELECT("image_hash");
@@ -70,9 +70,9 @@ public class ProductImagesSqlProvider {
     public String selectByExample(ProductImagesExample example) {
         SQL sql = new SQL();
         if (example != null && example.isDistinct()) {
-            sql.SELECT_DISTINCT("id");
+            sql.SELECT_DISTINCT("uuid");
         } else {
-            sql.SELECT("id");
+            sql.SELECT("uuid");
         }
         sql.SELECT("is_cover");
         sql.SELECT("image_hash");
@@ -93,8 +93,8 @@ public class ProductImagesSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("product_images");
         
-        if (record.getId() != null) {
-            sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        if (record.getUuid() != null) {
+            sql.SET("uuid = #{record.uuid,jdbcType=BINARY}");
         }
         
         if (record.getIsCover() != null) {
@@ -117,7 +117,7 @@ public class ProductImagesSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("product_images");
         
-        sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        sql.SET("uuid = #{record.uuid,jdbcType=BINARY}");
         sql.SET("is_cover = #{record.isCover,jdbcType=TINYINT}");
         sql.SET("image_hash = #{record.imageHash,jdbcType=VARCHAR}");
         sql.SET("products_id = #{record.productsId,jdbcType=BINARY}");
@@ -131,7 +131,7 @@ public class ProductImagesSqlProvider {
         SQL sql = new SQL();
         sql.UPDATE("product_images");
         
-        sql.SET("id = #{record.id,jdbcType=INTEGER}");
+        sql.SET("uuid = #{record.uuid,jdbcType=BINARY}");
         sql.SET("is_cover = #{record.isCover,jdbcType=TINYINT}");
         sql.SET("image_hash = #{record.imageHash,jdbcType=VARCHAR}");
         
@@ -156,7 +156,7 @@ public class ProductImagesSqlProvider {
             sql.SET("products_id = #{productsId,jdbcType=BINARY}");
         }
         
-        sql.WHERE("id = #{id,jdbcType=INTEGER}");
+        sql.WHERE("uuid = #{uuid,jdbcType=BINARY}");
         
         return sql.toString();
     }

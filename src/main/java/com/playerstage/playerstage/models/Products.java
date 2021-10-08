@@ -20,13 +20,11 @@ public class Products {
 
     private String description;
 
-    private String modelName;
-
-    private Integer freeShippingMiniSpend;
-
     private String originItemId;
 
     private Integer sold;
+
+    private Boolean edited;
 
     public UUID getUuid() {
         return uuid;
@@ -92,22 +90,6 @@ public class Products {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getModelName() {
-        return modelName;
-    }
-
-    public void setModelName(String modelName) {
-        this.modelName = modelName == null ? null : modelName.trim();
-    }
-
-    public Integer getFreeShippingMiniSpend() {
-        return freeShippingMiniSpend;
-    }
-
-    public void setFreeShippingMiniSpend(Integer freeShippingMiniSpend) {
-        this.freeShippingMiniSpend = freeShippingMiniSpend;
-    }
-
     public String getOriginItemId() {
         return originItemId;
     }
@@ -122,5 +104,13 @@ public class Products {
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public Boolean getEdited() {
+        return edited;
+    }
+
+    public void setEdited(Boolean edited) {
+        this.edited = edited;
     }
 }

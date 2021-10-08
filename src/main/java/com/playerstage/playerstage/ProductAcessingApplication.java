@@ -71,6 +71,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
             ProductImages productImages = new ProductImages();
             ProductModels productModels = new ProductModels();
             Products products =  new Products();
+            ProductsExample productsExample =  new ProductsExample();
             ProductsCategoriesIntermediary productsCategoriesIntermediary = new ProductsCategoriesIntermediary();
             Shipments shipments  = new Shipments();
             ShipmentsExample shipmentsExample = new ShipmentsExample();
@@ -122,6 +123,15 @@ public class ProductAcessingApplication implements ApplicationRunner {
 
                     JSONObject productBasicJsonObj = JSONObject.fromObject(object).getJSONObject("item_basic");
                     String itemid = productBasicJsonObj.getString("itemid");
+                    
+                    productsExample.createCriteria().andOriginItemIdEqualTo(itemid);
+                    List<Products> productList = productsMapper.selectByExample(productsExample);
+                    productsExample.clear();
+
+                    if(productList.size()==1){
+                        log.info("skip exsited item id {} ", itemid);
+                        continue;
+                    }
 
                     log.info("[ fetch item_id = {} 's detail from {} ]" ,itemid,PRODUCT_DETAIL);
                     ResponseEntity<String> productDetailResEntity = restTemplate.exchange(
@@ -145,10 +155,12 @@ public class ProductAcessingApplication implements ApplicationRunner {
                     products.setIsPreOrder(detailDataJsonObj.getBoolean("is_pre_order"));
                     products.setRating((float) detailDataJsonObj.getJSONObject("item_rating").getDouble("rating_star"));
                     products.setDescription(detailDataJsonObj.getString("description"));
-                    products.setModelName(detailDataJsonObj.getJSONArray("tier_variations").getJSONObject(0).getString("name"));
                     products.setOriginItemId(itemid);
                     products.setSold(detailDataJsonObj.getInt("sold"));
+                    products.setEdited(false);
+                    productsMapper.insert(products);
 
+                    // hadle saving Shipments
                     log.info("[ fetch item_id = {} 's shipement from {} ]" ,itemid,PRODUCT_SHIPMENT);
                     ResponseEntity<String> shipmentsResEn = restTemplate.exchange(
                         UriComponentsBuilder.fromHttpUrl(PRODUCT_SHIPMENT)
@@ -161,23 +173,6 @@ public class ProductAcessingApplication implements ApplicationRunner {
                     );
 
                     JSONObject shipmentsDataJsonObj = JSONObject.fromObject(shipmentsResEn.getBody()).getJSONObject("data");
-
-                    int producShippingMiniSpend = 0;
-                    JSONObject freeShippingJsonObj = shipmentsDataJsonObj.getJSONObject("product_info").getJSONObject("free_shipping");
-                    
-                    if(!freeShippingJsonObj.isNullObject()){
-                        Object minSpendJsonObject = freeShippingJsonObj.get("min_spend");
-                        if(!(minSpendJsonObject instanceof JSONNull)){
-                            // log.info("[minSpendJsonObject.toString()] {}", Integer.valueOf(prductInfoJsonObj.toString()));
-                            producShippingMiniSpend = Integer.valueOf(minSpendJsonObject.toString())/10000;
-                        }
-                    }
-
-                    products.setFreeShippingMiniSpend(producShippingMiniSpend);
-
-                    productsMapper.insert(products);
-
-                    // hadle saving Shipments
                     for(Object o : shipmentsDataJsonObj.getJSONArray("ungrouped_channel_infos")){
                         JSONObject shipJSONObj = JSONObject.fromObject(o);
                         String shipName = shipJSONObj.getString("name");
@@ -186,7 +181,8 @@ public class ProductAcessingApplication implements ApplicationRunner {
                         // query exist shipment
                         shipmentsExample.createCriteria().andNameEqualTo(shipName);
                         List<Shipments> shipmentList = shipmentsMapper.selectByExample(shipmentsExample);
-                        
+                        shipmentsExample.clear();
+
                         if(shipmentList.size()==1){ 
                             shipUuid = shipmentList.get(0).getUuid();
                         }else{
@@ -204,6 +200,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
                             shipmentsMapper.insert(shipments);
                         }
 
+                        prdouctsShipmentsIntermediary.setUuid(UUID.randomUUID());
                         prdouctsShipmentsIntermediary.setProductsId(productUuid);
                         prdouctsShipmentsIntermediary.setShipmentsId(shipUuid);
                         prdouctsShipmentsIntermediaryMapper.insert(prdouctsShipmentsIntermediary);
@@ -218,6 +215,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
 
                         categoriesExample.createCriteria().andNameEqualTo(cateName);
                         List<Categories> cateList = categoriesMapper.selectByExample(categoriesExample);
+                        categoriesExample.clear();
 
                         if(cateList.size()==1){
                             cateUUID = cateList.get(0).getUuid();
@@ -226,7 +224,7 @@ public class ProductAcessingApplication implements ApplicationRunner {
                             categories.setUuid(cateUUID);
                             categoriesMapper.insert(categories);
                         }
-
+                        productsCategoriesIntermediary.setUuid(UUID.randomUUID());
                         productsCategoriesIntermediary.setCategoriesId(cateUUID);
                         productsCategoriesIntermediary.setProductsId(productUuid);
                         productsCategoriesIntermediaryMapper.insert(productsCategoriesIntermediary);
@@ -279,7 +277,8 @@ public class ProductAcessingApplication implements ApplicationRunner {
                         }
                         
                         saveImage(PRODUCT_IMAGE+"/"+imageHash,"upload/"+imageHash+".jpg");
-                        
+
+                        productImages.setUuid(UUID.randomUUID());
                         productImages.setIsCover(coverImgHash == imageHash);
                         productImages.setProductsId(productUuid);
                         productImages.setImageHash(imageHash);

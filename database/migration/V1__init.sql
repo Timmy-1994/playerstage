@@ -1,56 +1,46 @@
 USE `playerstage`;
 
-CREATE TABLE `products_crawlered_record` (
-  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `utime` DATETIME DEFAULT NOW() ON UPDATE NOW(),
-  `product_id` BINARY(16) NOT NULL,
-  `original_shopee_itemid` VARCHAR(45) NOT NULL,
-  `has_been_edited` BOOLEAN NOT NULL DEFAULT false
-);
-
 CREATE TABLE IF NOT EXISTS `products` (
   `uuid` BINARY(16) NOT NULL PRIMARY KEY,
   `name` VARCHAR(100) NOT NULL,
-  `ctime` DATETIME DEFAULT NOW(),
-  `utime` DATETIME DEFAULT NOW() ON UPDATE NOW(),
+  `ctime` TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+  `utime` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(),
   `brand` VARCHAR(80) NOT NULL,
   `is_pre_order` BOOLEAN NOT NULL DEFAULT false,
-  `rate` FLOAT NOT NULL DEFAULT 0,
-  `description` VARCHAR(1000) NOT NULL,
-
-  `model_name` VARCHAR(30) NOT NULL
+  `rating` FLOAT DEFAULT 0,
+  `description` VARCHAR(5000) NOT NULL,
+  `origin_item_id` varchar(45) NOT NULL,
+  `sold` INT NOT NULL,
+  `edited` BOOLEAN NOT NULL DEFAULT false
 ) COMMENT = '賣場商品';
 
 CREATE TABLE IF NOT EXISTS `product_models` (
   `uuid` BINARY(16) NOT NULL PRIMARY KEY,
+  `products_id` BINARY(16) NOT NULL,
+  CONSTRAINT `fk_product_models_products_id` FOREIGN KEY (`products_id`) REFERENCES `products`(`uuid`),
   `name` VARCHAR(100) NOT NULL,
   `price` INT NOT NULL,
   `discount` FLOAT NOT NULL DEFAULT 0,
   `total_stock` INT NOT NULL,
   `promote_stock` INT NOT NULL,
-  `sold` INT NOT NULL,
-
-  `products_id` BINARY(16) NOT NULL,
-  CONSTRAINT `fk_product_models_products_id` FOREIGN KEY (`products_id`) REFERENCES `products`(`uuid`)
+  `image_hash` varchar(45) NOT NULL
 ) COMMENT = '商品規格資訊';
 
 CREATE TABLE IF NOT EXISTS `product_images` (
   `uuid` BINARY(16) NOT NULL PRIMARY KEY,
-  `url` VARCHAR(100) NOT NULL,
-  `is_cover` BOOLEAN NOT NULL DEFAULT false,
-
   `products_id` BINARY(16) NOT NULL,
   CONSTRAINT `fk_product_images_products_id` FOREIGN KEY (`products_id`) REFERENCES `products`(`uuid`),
-  `product_model_id` BINARY(16) NOT NULL,
-  CONSTRAINT `fk_product_images_product_model_id` FOREIGN KEY (`product_model_id`) REFERENCES `product_models`(`uuid`)
+  `is_cover` BOOLEAN NOT NULL DEFAULT false,
+  `image_hash` varchar(45) NOT NULL
 ) COMMENT = '商品影像';
 
 CREATE TABLE IF NOT EXISTS `shipments` (
-  `uuid` BINARY(16) NOT NULL PRIMARY KEY,
-  `estimated_days` INT NOT NULL,
+  `uuid` BINARY(16) NOT NULL PRIMARY KEY ,
   `name` VARCHAR(100) NOT NULL,
-  `price` INT NOT NULL DEFAULT 0,
-  `free_price_limit` INT NOT NULL DEFAULT 0
+  `max_price` INT NOT NULL,
+  `min_price` INT NOT NULL,
+  `estimated_max_days` INT DEFAULT NULL,
+  `estimated_min_days` INT DEFAULT NULL
 ) COMMENT = '所有運送方式';
 
 CREATE TABLE IF NOT EXISTS `categories` (

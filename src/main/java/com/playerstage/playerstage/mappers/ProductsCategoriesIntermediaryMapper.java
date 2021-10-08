@@ -3,6 +3,7 @@ package com.playerstage.playerstage.mappers;
 import com.playerstage.playerstage.models.ProductsCategoriesIntermediary;
 import com.playerstage.playerstage.models.ProductsCategoriesIntermediaryExample;
 import java.util.List;
+import java.util.UUID;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -25,14 +26,14 @@ public interface ProductsCategoriesIntermediaryMapper {
 
     @Delete({
         "delete from products_categories_intermediary",
-        "where id = #{id,jdbcType=INTEGER}"
+        "where uuid = #{uuid,jdbcType=BINARY}"
     })
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(UUID uuid);
 
     @Insert({
-        "insert into products_categories_intermediary (id, categories_id, ",
+        "insert into products_categories_intermediary (uuid, categories_id, ",
         "products_id)",
-        "values (#{id,jdbcType=INTEGER}, #{categoriesId,jdbcType=BINARY}, ",
+        "values (#{uuid,jdbcType=BINARY}, #{categoriesId,jdbcType=BINARY}, ",
         "#{productsId,jdbcType=BINARY})"
     })
     int insert(ProductsCategoriesIntermediary record);
@@ -42,7 +43,7 @@ public interface ProductsCategoriesIntermediaryMapper {
 
     @SelectProvider(type=ProductsCategoriesIntermediarySqlProvider.class, method="selectByExampleWithBLOBs")
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
         @Result(column="categories_id", property="categoriesId", jdbcType=JdbcType.BINARY),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
@@ -50,22 +51,22 @@ public interface ProductsCategoriesIntermediaryMapper {
 
     @SelectProvider(type=ProductsCategoriesIntermediarySqlProvider.class, method="selectByExample")
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true)
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true)
     })
     List<ProductsCategoriesIntermediary> selectByExample(ProductsCategoriesIntermediaryExample example);
 
     @Select({
         "select",
-        "id, categories_id, products_id",
+        "uuid, categories_id, products_id",
         "from products_categories_intermediary",
-        "where id = #{id,jdbcType=INTEGER}"
+        "where uuid = #{uuid,jdbcType=BINARY}"
     })
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
         @Result(column="categories_id", property="categoriesId", jdbcType=JdbcType.BINARY),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
-    ProductsCategoriesIntermediary selectByPrimaryKey(Integer id);
+    ProductsCategoriesIntermediary selectByPrimaryKey(UUID uuid);
 
     @UpdateProvider(type=ProductsCategoriesIntermediarySqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") ProductsCategoriesIntermediary record, @Param("example") ProductsCategoriesIntermediaryExample example);
@@ -83,7 +84,7 @@ public interface ProductsCategoriesIntermediaryMapper {
         "update products_categories_intermediary",
         "set categories_id = #{categoriesId,jdbcType=BINARY},",
           "products_id = #{productsId,jdbcType=BINARY}",
-        "where id = #{id,jdbcType=INTEGER}"
+        "where uuid = #{uuid,jdbcType=BINARY}"
     })
     int updateByPrimaryKeyWithBLOBs(ProductsCategoriesIntermediary record);
 }

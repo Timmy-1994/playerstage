@@ -35,14 +35,14 @@ public interface ProductsMapper {
         "ctime, utime, ",
         "brand, is_pre_order, ",
         "rating, description, ",
-        "model_name, free_shipping_mini_spend, ",
-        "origin_item_id, sold)",
+        "origin_item_id, sold, ",
+        "edited)",
         "values (#{uuid,jdbcType=BINARY}, #{name,jdbcType=VARCHAR}, ",
         "#{ctime,jdbcType=TIMESTAMP}, #{utime,jdbcType=TIMESTAMP}, ",
         "#{brand,jdbcType=VARCHAR}, #{isPreOrder,jdbcType=TINYINT}, ",
         "#{rating,jdbcType=REAL}, #{description,jdbcType=VARCHAR}, ",
-        "#{modelName,jdbcType=VARCHAR}, #{freeShippingMiniSpend,jdbcType=INTEGER}, ",
-        "#{originItemId,jdbcType=VARCHAR}, #{sold,jdbcType=INTEGER})"
+        "#{originItemId,jdbcType=VARCHAR}, #{sold,jdbcType=INTEGER}, ",
+        "#{edited,jdbcType=TINYINT})"
     })
     int insert(Products record);
 
@@ -59,17 +59,16 @@ public interface ProductsMapper {
         @Result(column="is_pre_order", property="isPreOrder", jdbcType=JdbcType.TINYINT),
         @Result(column="rating", property="rating", jdbcType=JdbcType.REAL),
         @Result(column="description", property="description", jdbcType=JdbcType.VARCHAR),
-        @Result(column="model_name", property="modelName", jdbcType=JdbcType.VARCHAR),
-        @Result(column="free_shipping_mini_spend", property="freeShippingMiniSpend", jdbcType=JdbcType.INTEGER),
         @Result(column="origin_item_id", property="originItemId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="sold", property="sold", jdbcType=JdbcType.INTEGER)
+        @Result(column="sold", property="sold", jdbcType=JdbcType.INTEGER),
+        @Result(column="edited", property="edited", jdbcType=JdbcType.TINYINT)
     })
     List<Products> selectByExample(ProductsExample example);
 
     @Select({
         "select",
-        "uuid, name, ctime, utime, brand, is_pre_order, rating, description, model_name, ",
-        "free_shipping_mini_spend, origin_item_id, sold",
+        "uuid, name, ctime, utime, brand, is_pre_order, rating, description, origin_item_id, ",
+        "sold, edited",
         "from products",
         "where uuid = #{uuid,jdbcType=BINARY}"
     })
@@ -82,10 +81,9 @@ public interface ProductsMapper {
         @Result(column="is_pre_order", property="isPreOrder", jdbcType=JdbcType.TINYINT),
         @Result(column="rating", property="rating", jdbcType=JdbcType.REAL),
         @Result(column="description", property="description", jdbcType=JdbcType.VARCHAR),
-        @Result(column="model_name", property="modelName", jdbcType=JdbcType.VARCHAR),
-        @Result(column="free_shipping_mini_spend", property="freeShippingMiniSpend", jdbcType=JdbcType.INTEGER),
         @Result(column="origin_item_id", property="originItemId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="sold", property="sold", jdbcType=JdbcType.INTEGER)
+        @Result(column="sold", property="sold", jdbcType=JdbcType.INTEGER),
+        @Result(column="edited", property="edited", jdbcType=JdbcType.TINYINT)
     })
     Products selectByPrimaryKey(UUID uuid);
 
@@ -107,10 +105,9 @@ public interface ProductsMapper {
           "is_pre_order = #{isPreOrder,jdbcType=TINYINT},",
           "rating = #{rating,jdbcType=REAL},",
           "description = #{description,jdbcType=VARCHAR},",
-          "model_name = #{modelName,jdbcType=VARCHAR},",
-          "free_shipping_mini_spend = #{freeShippingMiniSpend,jdbcType=INTEGER},",
           "origin_item_id = #{originItemId,jdbcType=VARCHAR},",
-          "sold = #{sold,jdbcType=INTEGER}",
+          "sold = #{sold,jdbcType=INTEGER},",
+          "edited = #{edited,jdbcType=TINYINT}",
         "where uuid = #{uuid,jdbcType=BINARY}"
     })
     int updateByPrimaryKey(Products record);

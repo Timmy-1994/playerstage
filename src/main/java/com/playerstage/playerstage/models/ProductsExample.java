@@ -616,136 +616,6 @@ public class ProductsExample {
             return (Criteria) this;
         }
 
-        public Criteria andModelNameIsNull() {
-            addCriterion("model_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameIsNotNull() {
-            addCriterion("model_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameEqualTo(String value) {
-            addCriterion("model_name =", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameNotEqualTo(String value) {
-            addCriterion("model_name <>", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameGreaterThan(String value) {
-            addCriterion("model_name >", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameGreaterThanOrEqualTo(String value) {
-            addCriterion("model_name >=", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameLessThan(String value) {
-            addCriterion("model_name <", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameLessThanOrEqualTo(String value) {
-            addCriterion("model_name <=", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameLike(String value) {
-            addCriterion("model_name like", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameNotLike(String value) {
-            addCriterion("model_name not like", value, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameIn(List<String> values) {
-            addCriterion("model_name in", values, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameNotIn(List<String> values) {
-            addCriterion("model_name not in", values, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameBetween(String value1, String value2) {
-            addCriterion("model_name between", value1, value2, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andModelNameNotBetween(String value1, String value2) {
-            addCriterion("model_name not between", value1, value2, "modelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendIsNull() {
-            addCriterion("free_shipping_mini_spend is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendIsNotNull() {
-            addCriterion("free_shipping_mini_spend is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendEqualTo(Integer value) {
-            addCriterion("free_shipping_mini_spend =", value, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendNotEqualTo(Integer value) {
-            addCriterion("free_shipping_mini_spend <>", value, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendGreaterThan(Integer value) {
-            addCriterion("free_shipping_mini_spend >", value, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendGreaterThanOrEqualTo(Integer value) {
-            addCriterion("free_shipping_mini_spend >=", value, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendLessThan(Integer value) {
-            addCriterion("free_shipping_mini_spend <", value, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendLessThanOrEqualTo(Integer value) {
-            addCriterion("free_shipping_mini_spend <=", value, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendIn(List<Integer> values) {
-            addCriterion("free_shipping_mini_spend in", values, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendNotIn(List<Integer> values) {
-            addCriterion("free_shipping_mini_spend not in", values, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendBetween(Integer value1, Integer value2) {
-            addCriterion("free_shipping_mini_spend between", value1, value2, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
-        public Criteria andFreeShippingMiniSpendNotBetween(Integer value1, Integer value2) {
-            addCriterion("free_shipping_mini_spend not between", value1, value2, "freeShippingMiniSpend");
-            return (Criteria) this;
-        }
-
         public Criteria andOriginItemIdIsNull() {
             addCriterion("origin_item_id is null");
             return (Criteria) this;
@@ -873,6 +743,66 @@ public class ProductsExample {
 
         public Criteria andSoldNotBetween(Integer value1, Integer value2) {
             addCriterion("sold not between", value1, value2, "sold");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedIsNull() {
+            addCriterion("edited is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedIsNotNull() {
+            addCriterion("edited is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedEqualTo(Boolean value) {
+            addCriterion("edited =", value, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedNotEqualTo(Boolean value) {
+            addCriterion("edited <>", value, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedGreaterThan(Boolean value) {
+            addCriterion("edited >", value, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("edited >=", value, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedLessThan(Boolean value) {
+            addCriterion("edited <", value, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedLessThanOrEqualTo(Boolean value) {
+            addCriterion("edited <=", value, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedIn(List<Boolean> values) {
+            addCriterion("edited in", values, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedNotIn(List<Boolean> values) {
+            addCriterion("edited not in", values, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedBetween(Boolean value1, Boolean value2) {
+            addCriterion("edited between", value1, value2, "edited");
+            return (Criteria) this;
+        }
+
+        public Criteria andEditedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("edited not between", value1, value2, "edited");
             return (Criteria) this;
         }
     }

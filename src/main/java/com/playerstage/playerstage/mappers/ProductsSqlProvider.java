@@ -60,20 +60,16 @@ public class ProductsSqlProvider {
             sql.VALUES("description", "#{description,jdbcType=VARCHAR}");
         }
         
-        if (record.getModelName() != null) {
-            sql.VALUES("model_name", "#{modelName,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getFreeShippingMiniSpend() != null) {
-            sql.VALUES("free_shipping_mini_spend", "#{freeShippingMiniSpend,jdbcType=INTEGER}");
-        }
-        
         if (record.getOriginItemId() != null) {
             sql.VALUES("origin_item_id", "#{originItemId,jdbcType=VARCHAR}");
         }
         
         if (record.getSold() != null) {
             sql.VALUES("sold", "#{sold,jdbcType=INTEGER}");
+        }
+        
+        if (record.getEdited() != null) {
+            sql.VALUES("edited", "#{edited,jdbcType=TINYINT}");
         }
         
         return sql.toString();
@@ -93,10 +89,9 @@ public class ProductsSqlProvider {
         sql.SELECT("is_pre_order");
         sql.SELECT("rating");
         sql.SELECT("description");
-        sql.SELECT("model_name");
-        sql.SELECT("free_shipping_mini_spend");
         sql.SELECT("origin_item_id");
         sql.SELECT("sold");
+        sql.SELECT("edited");
         sql.FROM("products");
         applyWhere(sql, example, false);
         
@@ -146,20 +141,16 @@ public class ProductsSqlProvider {
             sql.SET("description = #{record.description,jdbcType=VARCHAR}");
         }
         
-        if (record.getModelName() != null) {
-            sql.SET("model_name = #{record.modelName,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getFreeShippingMiniSpend() != null) {
-            sql.SET("free_shipping_mini_spend = #{record.freeShippingMiniSpend,jdbcType=INTEGER}");
-        }
-        
         if (record.getOriginItemId() != null) {
             sql.SET("origin_item_id = #{record.originItemId,jdbcType=VARCHAR}");
         }
         
         if (record.getSold() != null) {
             sql.SET("sold = #{record.sold,jdbcType=INTEGER}");
+        }
+        
+        if (record.getEdited() != null) {
+            sql.SET("edited = #{record.edited,jdbcType=TINYINT}");
         }
         
         applyWhere(sql, example, true);
@@ -178,10 +169,9 @@ public class ProductsSqlProvider {
         sql.SET("is_pre_order = #{record.isPreOrder,jdbcType=TINYINT}");
         sql.SET("rating = #{record.rating,jdbcType=REAL}");
         sql.SET("description = #{record.description,jdbcType=VARCHAR}");
-        sql.SET("model_name = #{record.modelName,jdbcType=VARCHAR}");
-        sql.SET("free_shipping_mini_spend = #{record.freeShippingMiniSpend,jdbcType=INTEGER}");
         sql.SET("origin_item_id = #{record.originItemId,jdbcType=VARCHAR}");
         sql.SET("sold = #{record.sold,jdbcType=INTEGER}");
+        sql.SET("edited = #{record.edited,jdbcType=TINYINT}");
         
         ProductsExample example = (ProductsExample) parameter.get("example");
         applyWhere(sql, example, true);
@@ -220,20 +210,16 @@ public class ProductsSqlProvider {
             sql.SET("description = #{description,jdbcType=VARCHAR}");
         }
         
-        if (record.getModelName() != null) {
-            sql.SET("model_name = #{modelName,jdbcType=VARCHAR}");
-        }
-        
-        if (record.getFreeShippingMiniSpend() != null) {
-            sql.SET("free_shipping_mini_spend = #{freeShippingMiniSpend,jdbcType=INTEGER}");
-        }
-        
         if (record.getOriginItemId() != null) {
             sql.SET("origin_item_id = #{originItemId,jdbcType=VARCHAR}");
         }
         
         if (record.getSold() != null) {
             sql.SET("sold = #{sold,jdbcType=INTEGER}");
+        }
+        
+        if (record.getEdited() != null) {
+            sql.SET("edited = #{edited,jdbcType=TINYINT}");
         }
         
         sql.WHERE("uuid = #{uuid,jdbcType=BINARY}");

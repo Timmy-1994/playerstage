@@ -3,6 +3,7 @@ package com.playerstage.playerstage.mappers;
 import com.playerstage.playerstage.models.PrdouctsShipmentsIntermediary;
 import com.playerstage.playerstage.models.PrdouctsShipmentsIntermediaryExample;
 import java.util.List;
+import java.util.UUID;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
@@ -25,14 +26,14 @@ public interface PrdouctsShipmentsIntermediaryMapper {
 
     @Delete({
         "delete from prdoucts_shipments_intermediary",
-        "where id = #{id,jdbcType=INTEGER}"
+        "where uuid = #{uuid,jdbcType=BINARY}"
     })
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(UUID uuid);
 
     @Insert({
-        "insert into prdoucts_shipments_intermediary (id, shipments_id, ",
+        "insert into prdoucts_shipments_intermediary (uuid, shipments_id, ",
         "products_id)",
-        "values (#{id,jdbcType=INTEGER}, #{shipmentsId,jdbcType=BINARY}, ",
+        "values (#{uuid,jdbcType=BINARY}, #{shipmentsId,jdbcType=BINARY}, ",
         "#{productsId,jdbcType=BINARY})"
     })
     int insert(PrdouctsShipmentsIntermediary record);
@@ -42,7 +43,7 @@ public interface PrdouctsShipmentsIntermediaryMapper {
 
     @SelectProvider(type=PrdouctsShipmentsIntermediarySqlProvider.class, method="selectByExampleWithBLOBs")
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
         @Result(column="shipments_id", property="shipmentsId", jdbcType=JdbcType.BINARY),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
@@ -50,22 +51,22 @@ public interface PrdouctsShipmentsIntermediaryMapper {
 
     @SelectProvider(type=PrdouctsShipmentsIntermediarySqlProvider.class, method="selectByExample")
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true)
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true)
     })
     List<PrdouctsShipmentsIntermediary> selectByExample(PrdouctsShipmentsIntermediaryExample example);
 
     @Select({
         "select",
-        "id, shipments_id, products_id",
+        "uuid, shipments_id, products_id",
         "from prdoucts_shipments_intermediary",
-        "where id = #{id,jdbcType=INTEGER}"
+        "where uuid = #{uuid,jdbcType=BINARY}"
     })
     @Results({
-        @Result(column="id", property="id", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
         @Result(column="shipments_id", property="shipmentsId", jdbcType=JdbcType.BINARY),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
-    PrdouctsShipmentsIntermediary selectByPrimaryKey(Integer id);
+    PrdouctsShipmentsIntermediary selectByPrimaryKey(UUID uuid);
 
     @UpdateProvider(type=PrdouctsShipmentsIntermediarySqlProvider.class, method="updateByExampleSelective")
     int updateByExampleSelective(@Param("record") PrdouctsShipmentsIntermediary record, @Param("example") PrdouctsShipmentsIntermediaryExample example);
@@ -83,7 +84,7 @@ public interface PrdouctsShipmentsIntermediaryMapper {
         "update prdoucts_shipments_intermediary",
         "set shipments_id = #{shipmentsId,jdbcType=BINARY},",
           "products_id = #{productsId,jdbcType=BINARY}",
-        "where id = #{id,jdbcType=INTEGER}"
+        "where uuid = #{uuid,jdbcType=BINARY}"
     })
     int updateByPrimaryKeyWithBLOBs(PrdouctsShipmentsIntermediary record);
 }

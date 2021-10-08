@@ -2,6 +2,7 @@ package com.playerstage.playerstage.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PrdouctsShipmentsIntermediaryExample {
     protected String orderByClause;
@@ -104,63 +105,63 @@ public class PrdouctsShipmentsIntermediaryExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
+        public Criteria andUuidIsNull() {
+            addCriterion("uuid is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+        public Criteria andUuidIsNotNull() {
+            addCriterion("uuid is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Integer value) {
-            addCriterion("id =", value, "id");
+        public Criteria andUuidEqualTo(UUID value) {
+            addCriterion("uuid =", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Integer value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andUuidNotEqualTo(UUID value) {
+            addCriterion("uuid <>", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Integer value) {
-            addCriterion("id >", value, "id");
+        public Criteria andUuidGreaterThan(UUID value) {
+            addCriterion("uuid >", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andUuidGreaterThanOrEqualTo(UUID value) {
+            addCriterion("uuid >=", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Integer value) {
-            addCriterion("id <", value, "id");
+        public Criteria andUuidLessThan(UUID value) {
+            addCriterion("uuid <", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andUuidLessThanOrEqualTo(UUID value) {
+            addCriterion("uuid <=", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Integer> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andUuidIn(List<UUID> values) {
+            addCriterion("uuid in", values, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Integer> values) {
-            addCriterion("id not in", values, "id");
+        public Criteria andUuidNotIn(List<UUID> values) {
+            addCriterion("uuid not in", values, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Integer value1, Integer value2) {
-            addCriterion("id between", value1, value2, "id");
+        public Criteria andUuidBetween(UUID value1, UUID value2) {
+            addCriterion("uuid between", value1, value2, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("id not between", value1, value2, "id");
+        public Criteria andUuidNotBetween(UUID value1, UUID value2) {
+            addCriterion("uuid not between", value1, value2, "uuid");
             return (Criteria) this;
         }
     }
