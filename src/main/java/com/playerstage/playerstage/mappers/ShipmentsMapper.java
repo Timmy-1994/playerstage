@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface ShipmentsMapper {
@@ -42,6 +43,17 @@ public interface ShipmentsMapper {
 
     @InsertProvider(type=ShipmentsSqlProvider.class, method="insertSelective")
     int insertSelective(Shipments record);
+
+    @SelectProvider(type=ShipmentsSqlProvider.class, method="selectByExample")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+        @Result(column="max_price", property="maxPrice", jdbcType=JdbcType.INTEGER),
+        @Result(column="min_price", property="minPrice", jdbcType=JdbcType.INTEGER),
+        @Result(column="estimated_max_days", property="estimatedMaxDays", jdbcType=JdbcType.INTEGER),
+        @Result(column="estimated_min_days", property="estimatedMinDays", jdbcType=JdbcType.INTEGER)
+    })
+    List<Shipments> selectByExampleWithRowbounds(ShipmentsExample example, RowBounds rowBounds);
 
     @SelectProvider(type=ShipmentsSqlProvider.class, method="selectByExample")
     @Results({

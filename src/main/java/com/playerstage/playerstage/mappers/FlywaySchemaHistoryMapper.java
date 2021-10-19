@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface FlywaySchemaHistoryMapper {
@@ -45,6 +46,21 @@ public interface FlywaySchemaHistoryMapper {
 
     @InsertProvider(type=FlywaySchemaHistorySqlProvider.class, method="insertSelective")
     int insertSelective(FlywaySchemaHistory record);
+
+    @SelectProvider(type=FlywaySchemaHistorySqlProvider.class, method="selectByExample")
+    @Results({
+        @Result(column="installed_rank", property="installedRank", jdbcType=JdbcType.INTEGER, id=true),
+        @Result(column="version", property="version", jdbcType=JdbcType.VARCHAR),
+        @Result(column="description", property="description", jdbcType=JdbcType.VARCHAR),
+        @Result(column="type", property="type", jdbcType=JdbcType.VARCHAR),
+        @Result(column="script", property="script", jdbcType=JdbcType.VARCHAR),
+        @Result(column="checksum", property="checksum", jdbcType=JdbcType.INTEGER),
+        @Result(column="installed_by", property="installedBy", jdbcType=JdbcType.VARCHAR),
+        @Result(column="installed_on", property="installedOn", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="execution_time", property="executionTime", jdbcType=JdbcType.INTEGER),
+        @Result(column="success", property="success", jdbcType=JdbcType.TINYINT)
+    })
+    List<FlywaySchemaHistory> selectByExampleWithRowbounds(FlywaySchemaHistoryExample example, RowBounds rowBounds);
 
     @SelectProvider(type=FlywaySchemaHistorySqlProvider.class, method="selectByExample")
     @Results({

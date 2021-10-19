@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface CategoriesMapper {
@@ -38,6 +39,13 @@ public interface CategoriesMapper {
 
     @InsertProvider(type=CategoriesSqlProvider.class, method="insertSelective")
     int insertSelective(Categories record);
+
+    @SelectProvider(type=CategoriesSqlProvider.class, method="selectByExample")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR)
+    })
+    List<Categories> selectByExampleWithRowbounds(CategoriesExample example, RowBounds rowBounds);
 
     @SelectProvider(type=CategoriesSqlProvider.class, method="selectByExample")
     @Results({

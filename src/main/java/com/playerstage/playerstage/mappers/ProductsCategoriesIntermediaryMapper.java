@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface ProductsCategoriesIntermediaryMapper {
@@ -47,7 +48,21 @@ public interface ProductsCategoriesIntermediaryMapper {
         @Result(column="categories_id", property="categoriesId", jdbcType=JdbcType.BINARY),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
+    List<ProductsCategoriesIntermediary> selectByExampleWithBLOBsWithRowbounds(ProductsCategoriesIntermediaryExample example, RowBounds rowBounds);
+
+    @SelectProvider(type=ProductsCategoriesIntermediarySqlProvider.class, method="selectByExampleWithBLOBs")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="categories_id", property="categoriesId", jdbcType=JdbcType.BINARY),
+        @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
+    })
     List<ProductsCategoriesIntermediary> selectByExampleWithBLOBs(ProductsCategoriesIntermediaryExample example);
+
+    @SelectProvider(type=ProductsCategoriesIntermediarySqlProvider.class, method="selectByExample")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true)
+    })
+    List<ProductsCategoriesIntermediary> selectByExampleWithRowbounds(ProductsCategoriesIntermediaryExample example, RowBounds rowBounds);
 
     @SelectProvider(type=ProductsCategoriesIntermediarySqlProvider.class, method="selectByExample")
     @Results({

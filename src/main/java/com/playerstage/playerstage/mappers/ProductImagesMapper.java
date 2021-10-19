@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface ProductImagesMapper {
@@ -48,7 +49,24 @@ public interface ProductImagesMapper {
         @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
+    List<ProductImages> selectByExampleWithBLOBsWithRowbounds(ProductImagesExample example, RowBounds rowBounds);
+
+    @SelectProvider(type=ProductImagesSqlProvider.class, method="selectByExampleWithBLOBs")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="is_cover", property="isCover", jdbcType=JdbcType.TINYINT),
+        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR),
+        @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
+    })
     List<ProductImages> selectByExampleWithBLOBs(ProductImagesExample example);
+
+    @SelectProvider(type=ProductImagesSqlProvider.class, method="selectByExample")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="is_cover", property="isCover", jdbcType=JdbcType.TINYINT),
+        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR)
+    })
+    List<ProductImages> selectByExampleWithRowbounds(ProductImagesExample example, RowBounds rowBounds);
 
     @SelectProvider(type=ProductImagesSqlProvider.class, method="selectByExample")
     @Results({

@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface ProductModelsMapper {
@@ -56,7 +57,32 @@ public interface ProductModelsMapper {
         @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
+    List<ProductModels> selectByExampleWithBLOBsWithRowbounds(ProductModelsExample example, RowBounds rowBounds);
+
+    @SelectProvider(type=ProductModelsSqlProvider.class, method="selectByExampleWithBLOBs")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+        @Result(column="price", property="price", jdbcType=JdbcType.INTEGER),
+        @Result(column="discount", property="discount", jdbcType=JdbcType.REAL),
+        @Result(column="total_stock", property="totalStock", jdbcType=JdbcType.INTEGER),
+        @Result(column="promote_stock", property="promoteStock", jdbcType=JdbcType.INTEGER),
+        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR),
+        @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
+    })
     List<ProductModels> selectByExampleWithBLOBs(ProductModelsExample example);
+
+    @SelectProvider(type=ProductModelsSqlProvider.class, method="selectByExample")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+        @Result(column="price", property="price", jdbcType=JdbcType.INTEGER),
+        @Result(column="discount", property="discount", jdbcType=JdbcType.REAL),
+        @Result(column="total_stock", property="totalStock", jdbcType=JdbcType.INTEGER),
+        @Result(column="promote_stock", property="promoteStock", jdbcType=JdbcType.INTEGER),
+        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR)
+    })
+    List<ProductModels> selectByExampleWithRowbounds(ProductModelsExample example, RowBounds rowBounds);
 
     @SelectProvider(type=ProductModelsSqlProvider.class, method="selectByExample")
     @Results({

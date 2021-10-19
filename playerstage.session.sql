@@ -38,4 +38,5 @@ SHOW COLUMNS FROM `products`
 -- @block DROP
 DROP DATABASE `product_images`
 
-
+-- @block DELETE
+DELETE FROM `categories` WHERE `name`="testTransactional2"

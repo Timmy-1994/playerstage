@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 public interface ProductsMapper {
@@ -48,6 +49,22 @@ public interface ProductsMapper {
 
     @InsertProvider(type=ProductsSqlProvider.class, method="insertSelective")
     int insertSelective(Products record);
+
+    @SelectProvider(type=ProductsSqlProvider.class, method="selectByExample")
+    @Results({
+        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
+        @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
+        @Result(column="ctime", property="ctime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="utime", property="utime", jdbcType=JdbcType.TIMESTAMP),
+        @Result(column="brand", property="brand", jdbcType=JdbcType.VARCHAR),
+        @Result(column="is_pre_order", property="isPreOrder", jdbcType=JdbcType.TINYINT),
+        @Result(column="rating", property="rating", jdbcType=JdbcType.REAL),
+        @Result(column="description", property="description", jdbcType=JdbcType.VARCHAR),
+        @Result(column="origin_item_id", property="originItemId", jdbcType=JdbcType.VARCHAR),
+        @Result(column="sold", property="sold", jdbcType=JdbcType.INTEGER),
+        @Result(column="edited", property="edited", jdbcType=JdbcType.TINYINT)
+    })
+    List<Products> selectByExampleWithRowbounds(ProductsExample example, RowBounds rowBounds);
 
     @SelectProvider(type=ProductsSqlProvider.class, method="selectByExample")
     @Results({

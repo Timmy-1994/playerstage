@@ -17,8 +17,8 @@ GET {{url}}/search/search_items
 &page_type=shop
 &scenario=PAGE_OTHERS
 &version=2
-&page=0
-&newest=30
+&page=4
+&newest=120
 User-Agent: 'Googlebot'
 Form: ''
 
