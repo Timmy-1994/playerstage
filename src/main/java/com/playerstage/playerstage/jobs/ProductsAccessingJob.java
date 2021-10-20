@@ -19,7 +19,7 @@ public class ProductsAccessingJob {
     @Autowired
     ProductsAccessingJobServices productsAccessingServices;
     
-    @EventListener(ContextRefreshedEvent.class)
+    // @EventListener(ContextRefreshedEvent.class)
     @Scheduled(cron="0 0 2 * * *")
     public void access() throws Exception {
 
