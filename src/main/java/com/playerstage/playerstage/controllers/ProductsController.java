@@ -3,8 +3,6 @@ package com.playerstage.playerstage.controllers;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.playerstage.playerstage.dto.*;
 import com.playerstage.playerstage.mappers.*;
 import com.playerstage.playerstage.models.*;
@@ -49,50 +47,46 @@ public class ProductsController {
     @ApiOperation(value = "全部商品清單", response = List.class)
     public ResponseEntity<List<ProductResponse>> findAll(
         @RequestParam(name = "page", required = false) Optional<Integer> page,
-        @RequestParam(name = "pageSize", required = false) Optional<Integer> pageSize,
-        HttpServletRequest request
+        @RequestParam(name = "pageSize", required = false) Optional<Integer> pageSize
     ) {
+
+        final String basePath = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
 
         try {
             int limit = pageSize.orElse(10);
             int offset = page.orElse(0)*limit;
 
             List<Products> list = productsMapper.select(x->x.limit(limit).offset(offset));
-
-            final String baseUrl = ServletUriComponentsBuilder.fromRequestUri(request)
-                .replacePath(null)
-                .build()
-                .toUriString();
                 
             List<ProductResponse> result = list
                 .stream()
                 .map(x->{
-                    ProductResponse resDTO = new ProductResponse();
+                    ProductResponse productResponse = new ProductResponse();
                         
                     List<String> productImagesUrls = productImagesMapper
                         .select(p->p.where(ProductImagesDynamicSqlSupport.productsId,isEqualTo(x.getUuid())))
                         .stream()
                         .map(i->{
-                            String fileName = baseUrl+"/files/"+i.getImageHash()+".jpg";
+                            String fileName = basePath+"/files/"+i.getImageHash()+".jpg";
                             if(i.getIsCover()){
-                                resDTO.setCoverImage(fileName);
+                                productResponse.setCoverImage(fileName);
                             }
                             return fileName;
                         })
                         .collect(Collectors.toList());
 
-                    resDTO.setImgUrl(productImagesUrls);
+                    productResponse.setImgUrl(productImagesUrls);
 
-                    resDTO.setBrand(x.getBrand());
-                    resDTO.setTime(x.getUtime());
-                    resDTO.setDescription(x.getDescription());
-                    resDTO.setIsPreOrder(x.getIsPreOrder());
-                    resDTO.setName(x.getName());
-                    resDTO.setRating(x.getRating());
-                    resDTO.setSold(x.getSold());
-                    resDTO.setUuid(x.getUuid());
+                    productResponse.setBrand(x.getBrand());
+                    productResponse.setTime(x.getUtime());
+                    productResponse.setDescription(x.getDescription());
+                    productResponse.setIsPreOrder(x.getIsPreOrder());
+                    productResponse.setName(x.getName());
+                    productResponse.setRating(x.getRating());
+                    productResponse.setSold(x.getSold());
+                    productResponse.setUuid(x.getUuid());
                   
-                    return resDTO;
+                    return productResponse;
                 })
                 .collect(Collectors.toList());
     
@@ -106,13 +100,46 @@ public class ProductsController {
 
     @GetMapping("/products/{id}")
     @ApiOperation(value = "依ID取得商品", response = List.class)
-    public ResponseEntity<Products> findById(
+    public ResponseEntity<ProductResponse> findById(
         @RequestParam(name = "uuid", required = false) String uuid
     ) {
+
+        final String basePath = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+
+            Products x = productsMapper.selectByPrimaryKey(UUID.fromString(uuid)).orElseThrow();
+
+            ProductResponse productResponse = new ProductResponse();
+
+            List<String> productImagesUrls = productImagesMapper
+                .select(p->p.where(ProductImagesDynamicSqlSupport.productsId,isEqualTo(x.getUuid())))
+                .stream()
+                .map(i->{
+                    String fileName = basePath+"/files/"+i.getImageHash()+".jpg";
+                    if(i.getIsCover()){
+                        productResponse.setCoverImage(fileName);
+                    }
+                    return fileName;
+                })
+                .collect(Collectors.toList());
+
+            productResponse.setImgUrl(productImagesUrls);
+
+            productResponse.setBrand(x.getBrand());
+            productResponse.setTime(x.getUtime());
+            productResponse.setDescription(x.getDescription());
+            productResponse.setIsPreOrder(x.getIsPreOrder());
+            productResponse.setName(x.getName());
+            productResponse.setRating(x.getRating());
+            productResponse.setSold(x.getSold());
+            productResponse.setUuid(x.getUuid());
+
+            return ResponseEntity.status(HttpStatus.OK).body(productResponse);
+
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
         }
     }
 
