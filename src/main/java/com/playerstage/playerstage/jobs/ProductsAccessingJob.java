@@ -18,14 +18,14 @@ public class ProductsAccessingJob implements ApplicationRunner {
 
     @Autowired
     ProductsAccessingJobServices productsAccessingServices;
-    
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        access();        
+        access();
     }
 
     @Scheduled(cron="0 0 2 * * *")
-    private void access() throws Exception {
+    public void access() throws Exception {
 
         int page = 0;
 
@@ -40,7 +40,7 @@ public class ProductsAccessingJob implements ApplicationRunner {
             for(ItemBasic itemBasic : itemBasics){
                 try{
                     String itemId = String.valueOf(itemBasic.getItemid());
-                    
+
                     ProductDetail detail = productsAccessingServices.getProductDetail(itemId);
 
                     if(detail==null){
@@ -57,7 +57,7 @@ public class ProductsAccessingJob implements ApplicationRunner {
             Thread.sleep(1000);
             page++;
         }
-        
+
     }
-    
+
 }

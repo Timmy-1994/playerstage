@@ -3,8 +3,7 @@ package com.playerstage.playerstage.controllers;
 import java.util.*;
 
 import com.playerstage.playerstage.mappers.ProductsMapper;
-import com.playerstage.playerstage.models.Products;
-import com.playerstage.playerstage.models.ProductsExample;
+import com.playerstage.playerstage.models.*;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -26,7 +25,6 @@ public class ProductsController {
     @Autowired
     ProductsMapper productsMapper;
 
-    private ProductsExample productsExample =  new ProductsExample();
 
     @GetMapping("/products")
     @ApiOperation(value = "全部商品清單", response = List.class)
@@ -34,17 +32,7 @@ public class ProductsController {
         @RequestParam(name = "page", required = false) Optional<Integer> page,
         @RequestParam(name = "pageSize", required = false) Optional<Integer> pageSize
     ) {
-        productsExample.clear();
-        
-        int limit = page.orElse(0);
-        int offset = pageSize.orElse(10);
-
-        List<Products> result = productsMapper.selectByExampleWithRowbounds(
-            productsExample,
-            new RowBounds(limit, offset)
-        );
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(List.of());
 
     }
 
@@ -54,8 +42,7 @@ public class ProductsController {
         @RequestParam(name = "uuid", required = false) String uuid
     ) {
         try{
-            Products result = productsMapper.selectByPrimaryKey(UUID.fromString(uuid));
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

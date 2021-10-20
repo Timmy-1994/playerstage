@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,6 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.playerstage.playerstage.jobs.dto.*;
 import com.playerstage.playerstage.mappers.*;
 import com.playerstage.playerstage.models.*;
+
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,8 +89,6 @@ public class ProductsAccessingJobServices {
     private final HttpHeaders headers = new HttpHeaders();
 
     private final HttpEntity<?> reqEntity = new HttpEntity<>(headers);
-    
-    private CategoriesExample categoriesExample = new CategoriesExample();
 
     private PrdouctsShipmentsIntermediary prdouctsShipmentsIntermediary = new PrdouctsShipmentsIntermediary();
 
@@ -99,15 +98,11 @@ public class ProductsAccessingJobServices {
 
     private Products products = new Products();
 
-    private ProductsExample productsExample = new ProductsExample();
-
     private ProductsCategoriesIntermediary productsCategoriesIntermediary = new ProductsCategoriesIntermediary();
 
     private Shipments shipments = new Shipments();
 
     private Categories categories = new Categories();
-
-    private ShipmentsExample shipmentsExample = new ShipmentsExample();
 
     {
         headers.set("User-Agent", "Googlebot");
@@ -166,10 +161,7 @@ public class ProductsAccessingJobServices {
 
         try{
 
-            // if itemid repeat , ignore it
-            productsExample.createCriteria().andOriginItemIdEqualTo(itemId);
-            List<Products> productList = productsMapper.selectByExample(productsExample);
-            productsExample.clear();
+            List<Products> productList  = productsMapper.select(x -> x.where(ProductsDynamicSqlSupport.originItemId,isEqualTo(itemId)));
 
             if(productList.size()>0){
                 log.warn("itemid {} repeat , ignore it", itemId);
@@ -274,11 +266,8 @@ public class ProductsAccessingJobServices {
                 String name = ungroupedChannelInfo.getName();
                 UUID uuid = UUID.randomUUID();
     
-                // query exist shipment
-                shipmentsExample.createCriteria().andNameEqualTo(name);
-                List<Shipments> shipmentList = shipmentsMapper.selectByExample(shipmentsExample);
-                shipmentsExample.clear();
-    
+                List<Shipments> shipmentList = shipmentsMapper.select(x->x.where(ShipmentsDynamicSqlSupport.name, isEqualTo(name)));
+
                 if(shipmentList.size()==1){ 
                     uuid = shipmentList.get(0).getUuid();
                 }else{
@@ -332,9 +321,7 @@ public class ProductsAccessingJobServices {
 
             UUID uuid = UUID.randomUUID();
 
-            categoriesExample.createCriteria().andNameEqualTo(name);
-            List<Categories> list = categoriesMapper.selectByExample(categoriesExample);
-            categoriesExample.clear();
+            List<Categories> list = categoriesMapper.select(x->x.where(CategoriesDynamicSqlSupport.name, isEqualTo(name)));
 
             if(list.size()==1){
                 uuid = list.get(0).getUuid();

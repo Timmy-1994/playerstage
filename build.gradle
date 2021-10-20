@@ -33,9 +33,10 @@ dependencies {
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
-	implementation 'org.mybatis.generator:mybatis-generator-core:1.3.7'
+	implementation 'org.mybatis.generator:mybatis-generator-core:1.4.0'
+	implementation 'org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.2.1'
 
-	mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.3.7' // duplicate
+	mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.4.0' // duplicate
 	mybatisGenerator 'org.mariadb.jdbc:mariadb-java-client' // duplicate
 	mybatisGenerator files('build/libs/playerstage-0.0.1-SNAPSHOT-plain.jar')
 
@@ -50,7 +51,10 @@ test {
 }
 
 tasks.register("mbgenerator") {
-	dependsOn(jar)
+
+	if (!file('build/libs/playerstage-0.0.1-SNAPSHOT-plain.jar').exists()) {
+		dependsOn(jar)
+	}
 
 	doLast {
 		ant.properties['connectionURL'] = props["spring.datasource.url"]
@@ -58,10 +62,8 @@ tasks.register("mbgenerator") {
 		ant.properties['password'] = props["spring.datasource.password"]
 		ant.properties['targetProject'] = projectDir.path
 		ant.properties['src_main_java'] = sourceSets.main.java.srcDirs[0].path
-		ant.properties['src_main_resources'] = sourceSets.main.resources.srcDirs[0].path
 		ant.properties['modelPackage'] = "com.playerstage.playerstage.models"
 		ant.properties['mapperPackage'] = "com.playerstage.playerstage.mappers"
-		ant.properties['sqlMapperPackage'] = "com.playerstage.playerstage.mappers.sql"
 		ant.properties['driverClass'] = jdbcDriver
 
 		ant.taskdef(
@@ -77,10 +79,8 @@ tasks.register("mbgenerator") {
 				propertyref(name: 'driverClass')
 				propertyref(name: 'targetProject')
 				propertyref(name: 'src_main_java')
-				propertyref(name: 'src_main_resources')
 				propertyref(name: 'modelPackage')
 				propertyref(name: 'mapperPackage')
-				propertyref(name: 'sqlMapperPackage')
 			}
 		}
 	}

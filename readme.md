@@ -2,6 +2,8 @@
 - [ ] check the syntas in `build.gradle` about dependencies duplicate ...etc
 
 ### `mybatis` reverse engineering
+* consider using [`mybatis plus`](https://baomidou.com/guide/)
+
 * [MyBatisGenerator-Tool](https://github.com/kingcos/MyBatisGenerator-Tool)
     Gradle offical plugin that I can find are without parameters deliver functionality.
     Therefore, define ant task to gernerate mappers & model files.
@@ -19,18 +21,21 @@
 * `mybatisGeneratorConfig.xml`
     * [spring-boot-starter](https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
     * [configure](https://gist.github.com/rorast/6c0900e5dc4c5ed222cc239589896c46)
-    * [example & criteria usage](https://zhuanlan.zhihu.com/p/42411540)，runtime should be `Mybatis3`
-        ```java
-            UserExample example = new UserExample();
-            UserExample.Criteria criteria = example.createCriteria();
+        * `runtimes`
+            * [`Mybatis3DynamicSql`](https://mybatis.org/mybatis-dynamic-sql/docs/select.html)
+            * `Mybatis3`
+                * [example & criteria usage](https://zhuanlan.zhihu.com/p/42411540)，runtime should be `Mybatis3`
+                    ```java
+                        UserExample example = new UserExample();
+                        UserExample.Criteria criteria = example.createCriteria();
 
-            example.setOrderByClause("${cloumn name} asc"); // 升序
-            example.setDistinct(false); // 不去重
+                        example.setOrderByClause("${cloumn name} asc"); // 升序
+                        example.setDistinct(false); // 不去重
 
-            criteria.addNameEqualTo("${username}");
+                        criteria.addNameEqualTo("${username}");
 
-            userMapper.selectByExample(example); // select * from user where name=${username} order by ${cloumn name} asc
-        ```
+                        userMapper.selectByExample(example); // select * from user where name=${username} order by ${cloumn name} asc
+                    ```
 
 ### [`flyway` DB migration](https://flywaydb.org/documentation/usage/gradle/)
 * [migration sql should name as `V1__*.sql`](https://stackoverflow.com/questions/53173291/flyway-cannot-find-migrations-location-in)

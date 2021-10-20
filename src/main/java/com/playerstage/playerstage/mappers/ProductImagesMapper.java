@@ -1,121 +1,185 @@
 package com.playerstage.playerstage.mappers;
 
+import static com.playerstage.playerstage.mappers.ProductImagesDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.*;
+
 import com.playerstage.playerstage.models.ProductImages;
-import com.playerstage.playerstage.models.ProductImagesExample;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import org.apache.ibatis.annotations.Delete;
+import javax.annotation.Generated;
 import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
+import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
+import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
+import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
+import org.mybatis.dynamic.sql.insert.render.MultiRowInsertStatementProvider;
+import org.mybatis.dynamic.sql.select.CountDSLCompleter;
+import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
+import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
+import org.mybatis.dynamic.sql.update.UpdateDSL;
+import org.mybatis.dynamic.sql.update.UpdateDSLCompleter;
+import org.mybatis.dynamic.sql.update.UpdateModel;
+import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
+import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
+import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
+@Mapper
 public interface ProductImagesMapper {
-    @SelectProvider(type=ProductImagesSqlProvider.class, method="countByExample")
-    long countByExample(ProductImagesExample example);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    BasicColumn[] selectList = BasicColumn.columnList(uuid, isCover, imageHash, productsId);
 
-    @DeleteProvider(type=ProductImagesSqlProvider.class, method="deleteByExample")
-    int deleteByExample(ProductImagesExample example);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    @SelectProvider(type=SqlProviderAdapter.class, method="select")
+    long count(SelectStatementProvider selectStatement);
 
-    @Delete({
-        "delete from product_images",
-        "where uuid = #{uuid,jdbcType=BINARY}"
-    })
-    int deleteByPrimaryKey(UUID uuid);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    @DeleteProvider(type=SqlProviderAdapter.class, method="delete")
+    int delete(DeleteStatementProvider deleteStatement);
 
-    @Insert({
-        "insert into product_images (uuid, is_cover, ",
-        "image_hash, products_id)",
-        "values (#{uuid,jdbcType=BINARY}, #{isCover,jdbcType=TINYINT}, ",
-        "#{imageHash,jdbcType=VARCHAR}, #{productsId,jdbcType=BINARY})"
-    })
-    int insert(ProductImages record);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    @InsertProvider(type=SqlProviderAdapter.class, method="insert")
+    int insert(InsertStatementProvider<ProductImages> insertStatement);
 
-    @InsertProvider(type=ProductImagesSqlProvider.class, method="insertSelective")
-    int insertSelective(ProductImages record);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    @InsertProvider(type=SqlProviderAdapter.class, method="insertMultiple")
+    int insertMultiple(MultiRowInsertStatementProvider<ProductImages> multipleInsertStatement);
 
-    @SelectProvider(type=ProductImagesSqlProvider.class, method="selectByExampleWithBLOBs")
-    @Results({
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    @SelectProvider(type=SqlProviderAdapter.class, method="select")
+    @ResultMap("ProductImagesResult")
+    Optional<ProductImages> selectOne(SelectStatementProvider selectStatement);
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    @SelectProvider(type=SqlProviderAdapter.class, method="select")
+    @Results(id="ProductImagesResult", value = {
         @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
         @Result(column="is_cover", property="isCover", jdbcType=JdbcType.TINYINT),
         @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR),
         @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
     })
-    List<ProductImages> selectByExampleWithBLOBsWithRowbounds(ProductImagesExample example, RowBounds rowBounds);
+    List<ProductImages> selectMany(SelectStatementProvider selectStatement);
 
-    @SelectProvider(type=ProductImagesSqlProvider.class, method="selectByExampleWithBLOBs")
-    @Results({
-        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
-        @Result(column="is_cover", property="isCover", jdbcType=JdbcType.TINYINT),
-        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR),
-        @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
-    })
-    List<ProductImages> selectByExampleWithBLOBs(ProductImagesExample example);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    @UpdateProvider(type=SqlProviderAdapter.class, method="update")
+    int update(UpdateStatementProvider updateStatement);
 
-    @SelectProvider(type=ProductImagesSqlProvider.class, method="selectByExample")
-    @Results({
-        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
-        @Result(column="is_cover", property="isCover", jdbcType=JdbcType.TINYINT),
-        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR)
-    })
-    List<ProductImages> selectByExampleWithRowbounds(ProductImagesExample example, RowBounds rowBounds);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default long count(CountDSLCompleter completer) {
+        return MyBatis3Utils.countFrom(this::count, productImages, completer);
+    }
 
-    @SelectProvider(type=ProductImagesSqlProvider.class, method="selectByExample")
-    @Results({
-        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
-        @Result(column="is_cover", property="isCover", jdbcType=JdbcType.TINYINT),
-        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR)
-    })
-    List<ProductImages> selectByExample(ProductImagesExample example);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int delete(DeleteDSLCompleter completer) {
+        return MyBatis3Utils.deleteFrom(this::delete, productImages, completer);
+    }
 
-    @Select({
-        "select",
-        "uuid, is_cover, image_hash, products_id",
-        "from product_images",
-        "where uuid = #{uuid,jdbcType=BINARY}"
-    })
-    @Results({
-        @Result(column="uuid", property="uuid", jdbcType=JdbcType.BINARY, id=true),
-        @Result(column="is_cover", property="isCover", jdbcType=JdbcType.TINYINT),
-        @Result(column="image_hash", property="imageHash", jdbcType=JdbcType.VARCHAR),
-        @Result(column="products_id", property="productsId", jdbcType=JdbcType.BINARY)
-    })
-    ProductImages selectByPrimaryKey(UUID uuid);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int deleteByPrimaryKey(UUID uuid_) {
+        return delete(c -> 
+            c.where(uuid, isEqualTo(uuid_))
+        );
+    }
 
-    @UpdateProvider(type=ProductImagesSqlProvider.class, method="updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") ProductImages record, @Param("example") ProductImagesExample example);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int insert(ProductImages record) {
+        return MyBatis3Utils.insert(this::insert, record, productImages, c ->
+            c.map(uuid).toProperty("uuid")
+            .map(isCover).toProperty("isCover")
+            .map(imageHash).toProperty("imageHash")
+            .map(productsId).toProperty("productsId")
+        );
+    }
 
-    @UpdateProvider(type=ProductImagesSqlProvider.class, method="updateByExampleWithBLOBs")
-    int updateByExampleWithBLOBs(@Param("record") ProductImages record, @Param("example") ProductImagesExample example);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int insertMultiple(Collection<ProductImages> records) {
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, productImages, c ->
+            c.map(uuid).toProperty("uuid")
+            .map(isCover).toProperty("isCover")
+            .map(imageHash).toProperty("imageHash")
+            .map(productsId).toProperty("productsId")
+        );
+    }
 
-    @UpdateProvider(type=ProductImagesSqlProvider.class, method="updateByExample")
-    int updateByExample(@Param("record") ProductImages record, @Param("example") ProductImagesExample example);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int insertSelective(ProductImages record) {
+        return MyBatis3Utils.insert(this::insert, record, productImages, c ->
+            c.map(uuid).toPropertyWhenPresent("uuid", record::getUuid)
+            .map(isCover).toPropertyWhenPresent("isCover", record::getIsCover)
+            .map(imageHash).toPropertyWhenPresent("imageHash", record::getImageHash)
+            .map(productsId).toPropertyWhenPresent("productsId", record::getProductsId)
+        );
+    }
 
-    @UpdateProvider(type=ProductImagesSqlProvider.class, method="updateByPrimaryKeySelective")
-    int updateByPrimaryKeySelective(ProductImages record);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default Optional<ProductImages> selectOne(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, productImages, completer);
+    }
 
-    @Update({
-        "update product_images",
-        "set is_cover = #{isCover,jdbcType=TINYINT},",
-          "image_hash = #{imageHash,jdbcType=VARCHAR},",
-          "products_id = #{productsId,jdbcType=BINARY}",
-        "where uuid = #{uuid,jdbcType=BINARY}"
-    })
-    int updateByPrimaryKeyWithBLOBs(ProductImages record);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default List<ProductImages> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, selectList, productImages, completer);
+    }
 
-    @Update({
-        "update product_images",
-        "set is_cover = #{isCover,jdbcType=TINYINT},",
-          "image_hash = #{imageHash,jdbcType=VARCHAR}",
-        "where uuid = #{uuid,jdbcType=BINARY}"
-    })
-    int updateByPrimaryKey(ProductImages record);
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default List<ProductImages> selectDistinct(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, productImages, completer);
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default Optional<ProductImages> selectByPrimaryKey(UUID uuid_) {
+        return selectOne(c ->
+            c.where(uuid, isEqualTo(uuid_))
+        );
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int update(UpdateDSLCompleter completer) {
+        return MyBatis3Utils.update(this::update, productImages, completer);
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    static UpdateDSL<UpdateModel> updateAllColumns(ProductImages record, UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(uuid).equalTo(record::getUuid)
+                .set(isCover).equalTo(record::getIsCover)
+                .set(imageHash).equalTo(record::getImageHash)
+                .set(productsId).equalTo(record::getProductsId);
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(ProductImages record, UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(uuid).equalToWhenPresent(record::getUuid)
+                .set(isCover).equalToWhenPresent(record::getIsCover)
+                .set(imageHash).equalToWhenPresent(record::getImageHash)
+                .set(productsId).equalToWhenPresent(record::getProductsId);
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int updateByPrimaryKey(ProductImages record) {
+        return update(c ->
+            c.set(isCover).equalTo(record::getIsCover)
+            .set(imageHash).equalTo(record::getImageHash)
+            .set(productsId).equalTo(record::getProductsId)
+            .where(uuid, isEqualTo(record::getUuid))
+        );
+    }
+
+    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    default int updateByPrimaryKeySelective(ProductImages record) {
+        return update(c ->
+            c.set(isCover).equalToWhenPresent(record::getIsCover)
+            .set(imageHash).equalToWhenPresent(record::getImageHash)
+            .set(productsId).equalToWhenPresent(record::getProductsId)
+            .where(uuid, isEqualTo(record::getUuid))
+        );
+    }
 }
