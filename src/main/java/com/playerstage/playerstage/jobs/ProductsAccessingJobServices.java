@@ -405,7 +405,7 @@ public class ProductsAccessingJobServices {
                 saveImageAsFile(PRODUCT_IMAGE+"/"+hash,"upload/"+hash+".jpg");
 
                 productImages.setUuid(UUID.randomUUID());
-                productImages.setIsCover(hash == detail.getImage());
+                productImages.setIsCover(hash.equals(detail.getImage()));
                 productImages.setProductsId(productUUID);
                 productImages.setImageHash(hash);
                 productImagesMapper.insert(productImages);
