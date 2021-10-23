@@ -4,12 +4,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.playerstage.playerstage.models.ProductModels;
+
 import lombok.Data;
 
 @Data
 public class ProductResponse {
+    UUID uuid;
     String coverImage;
     List<String> imgUrl;
+    List<ProductModels> models;
     String brand;
     Date time;
     String description;
@@ -17,5 +21,4 @@ public class ProductResponse {
     String name;
     float rating;
     int sold;
-    UUID uuid;
 }
