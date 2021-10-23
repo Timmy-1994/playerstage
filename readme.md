@@ -8,10 +8,10 @@
     Gradle offical plugin that I can find are without parameters deliver functionality.
     Therefore, define ant task to gernerate mappers & model files.
 
-* `typeHandler`
+* `typeHandler`(specific column)
     `org.mybatis.spring.boot` will use the package path in `application.properties`. just define the specify `columnOverride` in `mybatisGeneratorConfig.xml`.
 
-* `typeResolver`
+* `typeResolver`(global)
     According to officail docuement : 
     > Classpath Issues
         Initially, the plugin classpath is very limited - it only contains MyBatis generator itself. If you need to add something to the plugin’s classpath (for example, a JDBC driver)
@@ -40,11 +40,16 @@
 ### [`flyway` DB migration](https://flywaydb.org/documentation/usage/gradle/)
 * [migration sql should name as `V1__*.sql`](https://stackoverflow.com/questions/53173291/flyway-cannot-find-migrations-location-in)
 
-
 ### file handle
-[UrlResource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/io/UrlResource.html)
-[ImageSaving](http://www.java2s.com/example/java-utility-method/url-load/saveimage-string-imageurl-string-destinationfile-f9579.html)
+* [UrlResource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/io/UrlResource.html)
+* [ImageSaving](http://www.java2s.com/example/java-utility-method/url-load/saveimage-string-imageurl-string-destinationfile-f9579.html)
 
 
 ### schedule
 * [crontab](https://crontab.guru)
+
+### Swagger OAS3
+* [demo-swagger3](https://github.com/Jalon2015/spring-boot-demo/tree/master/demo-swagger3)
+* https://www.baeldung.com/java-swagger-api-description-deprecated
+
+### [unit test](https://site.mockito.org/)

@@ -370,11 +370,8 @@ public class ProductsAccessingJobServices {
                 
                 productModels.setUuid(UUID.randomUUID());
                 productModels.setName(model.getName());
-                productModels.setPrice((int) (model.getPrice()/10000));
-                
-                Float discount = (float) (model.getPrice()/(model.getPriceBeforeDiscount()==0?1:model.getPriceBeforeDiscount()));
-
-                productModels.setDiscount(discount);
+                productModels.setPrice((int) (model.getPrice()/100000));
+                productModels.setDiscount(0F);
                 productModels.setTotalStock(model.getStock());
                 productModels.setPromoteStock(0);
                 productModels.setProductsId(productUUID);
