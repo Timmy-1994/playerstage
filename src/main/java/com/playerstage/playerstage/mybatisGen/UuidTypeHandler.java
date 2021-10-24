@@ -1,4 +1,4 @@
-package com.playerstage.playerstage.config.mybatis;
+package com.playerstage.playerstage.mybatisGen;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

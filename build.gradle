@@ -14,7 +14,10 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	mybatisGenerator
+}
+
+springBoot {
+    mainClass = 'com.playerstage.playerstage.PlayerstageApplication'
 }
 
 repositories {
@@ -35,55 +38,18 @@ dependencies {
 
 	implementation 'org.mybatis.generator:mybatis-generator-core:1.4.0'
 	implementation 'org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.2.1'
-
-	mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.4.0' // duplicate
-	mybatisGenerator 'org.mariadb.jdbc:mariadb-java-client' // duplicate
-	mybatisGenerator files('build/libs/playerstage-0.0.1-SNAPSHOT-plain.jar')
-
 }
 
-def jdbcDriver = "org.mariadb.jdbc.Driver"
 def props = new Properties()
 file("/src/main/resources/application.properties").withInputStream { props.load(it) }
 
-test {
-	useJUnitPlatform()
+tasks.register("mbgenerator", JavaExec) {
+	classpath sourceSets.main.runtimeClasspath
+	main "com.playerstage.playerstage.mybatisGen.MybatisGenerator"
 }
 
-tasks.register("mbgenerator") {
-
-	if (!file('build/libs/playerstage-0.0.1-SNAPSHOT-plain.jar').exists()) {
-		dependsOn(jar)
-	}
-
-	doLast {
-		ant.properties['connectionURL'] = props["spring.datasource.url"]
-		ant.properties['userId'] = props["spring.datasource.username"]
-		ant.properties['password'] = props["spring.datasource.password"]
-		ant.properties['targetProject'] = projectDir.path
-		ant.properties['src_main_java'] = sourceSets.main.java.srcDirs[0].path
-		ant.properties['modelPackage'] = "com.playerstage.playerstage.models"
-		ant.properties['mapperPackage'] = "com.playerstage.playerstage.mappers"
-		ant.properties['driverClass'] = jdbcDriver
-
-		ant.taskdef(
-				name: 'mbgenerator',
-				classname: 'org.mybatis.generator.ant.GeneratorAntTask',
-				classpath: configurations.mybatisGenerator.asPath
-		)
-		ant.mbgenerator(overwrite:true,configfile: file("src/main/resources/mybatisGeneratorConfig.xml")) {
-			propertyset {
-				propertyref(name: 'connectionURL')
-				propertyref(name: 'userId')
-				propertyref(name: 'password')
-				propertyref(name: 'driverClass')
-				propertyref(name: 'targetProject')
-				propertyref(name: 'src_main_java')
-				propertyref(name: 'modelPackage')
-				propertyref(name: 'mapperPackage')
-			}
-		}
-	}
+test {
+	useJUnitPlatform()
 }
 
 flyway {

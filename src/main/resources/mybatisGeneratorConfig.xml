@@ -3,7 +3,8 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <context id="Mysql" targetRuntime="MyBatis3DynamicSQL">
+    <properties resource="application.properties"/>
+    <context id="default" targetRuntime="MyBatis3DynamicSQL">
 
         <commentGenerator>
             <property name="suppressAllComments" value="true"></property>
@@ -11,23 +12,23 @@
             <property name="javaFileEncoding" value="utf-8"/>
         </commentGenerator>
 
-        <jdbcConnection driverClass="${driverClass}"
-                        connectionURL="${connectionURL}?tinyInt1isBit=false"
-                        userId="${userId}"
-                        password="${password}">
+        <jdbcConnection driverClass="org.mariadb.jdbc.Driver"
+                        connectionURL="${spring.datasource.url}?tinyInt1isBit=false"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}">
         </jdbcConnection>
 
-        <javaTypeResolver type="com.playerstage.playerstage.config.mybatis.CustomTypeResolver">
+        <javaTypeResolver type="com.playerstage.playerstage.mybatisGen.CustomTypeResolver">
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="${modelPackage}" targetProject="${src_main_java}">
+        <javaModelGenerator targetPackage="${mybatis.model-package}" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"></property>
             <property name="trimStrings" value="true"></property>
         </javaModelGenerator>
 
 
-        <javaClientGenerator targetPackage="${mapperPackage}" targetProject="${src_main_java}" type="ANNOTATEDMAPPER">
+        <javaClientGenerator targetPackage="${mybatis.mapper-package}" targetProject="src/main/java" type="ANNOTATEDMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
