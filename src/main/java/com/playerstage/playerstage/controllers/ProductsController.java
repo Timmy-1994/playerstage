@@ -19,66 +19,123 @@ public class ProductsController {
     @Autowired
     ProductsService productsService;
 
+    @PostMapping("/products")
+    @Operation(summary = "新增商品")
+    public ResponseEntity<?> add(
+        @RequestBody ProductRequest product
+    ){
+        try{
+            productsService.addProduct(product);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
+        } 
+    }
+
     @GetMapping("/products")
     @Operation(summary = "全部商品清單")
-    public ResponseEntity<List<ProductResponse>> findAll(
+    public ResponseEntity<?> findAll(
         @RequestParam(name = "page", required = false) Optional<Integer> page,
         @RequestParam(name = "pageSize", required = false) Optional<Integer> pageSize
     ) {
         try {
             int limit = pageSize.orElse(10);
-            int offset = page.orElse(0)*limit;           
+            int offset = page.orElse(0)*limit;
             List<ProductResponse> result = productsService.getProductResponse(limit, offset);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
         }
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/products/{uuid}")
     @Operation(summary = "依ID取得商品")
-    public ResponseEntity<ProductResponse> findById(
-        @RequestParam(name = "uuid", required = true) String uuid
+    public ResponseEntity<?> findById(
+        @PathVariable(name ="uuid") String uuid
     ) {
         try{
             ProductResponse result = productsService.getProductResponse(uuid);
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }catch(Exception e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
         }
     }
 
-    @PutMapping("/products/{id}")
-    @Operation(summary = "依ID更新商品-基本")
-    public ResponseEntity<String> updateProductById(
-        @RequestParam(name = "uuid", required = true) String uuid,
+    @PutMapping("/products/{uuid}")
+    @Operation(summary = "依ID更新商品")
+    public ResponseEntity<?> updateById(
+        @PathVariable(name ="uuid",required = true) String uuid,
         @RequestBody Products product
     ) {
         try{
-            
-            return ResponseEntity.status(HttpStatus.OK).body("uuid");
+            productsService.updateProduct(uuid,Optional.ofNullable(product));
+            ProductResponse result = productsService.getProductResponse(uuid);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         }catch(Exception e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
+        }
+    }
+
+    @DeleteMapping("/products/{uuid}")
+    @Operation(summary = "依ID刪除商品")
+    public ResponseEntity<?> deleteById(
+        @PathVariable(name ="uuid") String uuid
+    ){
+        try{
+            productsService.deleteProduct(uuid);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
         }
     }
 
     @PutMapping("/products/model/{uuid}")
-    @Operation(summary = "依ID更新商品-子項")
-    public ResponseEntity<String> updateProductById(
-        @PathVariable(name ="uuid") String id,
-        @RequestBody ProductModels model
+    @Operation(summary = "依子項ID更新商品子項")
+    public ResponseEntity<?> updateModelById(
+        @PathVariable(name ="uuid") String modelUUID,
+        @RequestBody ProductModelRequest model
     ) {
         try{
-
-            return ResponseEntity.status(HttpStatus.OK).body("uuid");
+            productsService.updateProductModel(modelUUID,model);
+            return ResponseEntity.status(HttpStatus.OK).body(model);
         }catch(Exception e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
         }
     }
     
+    @DeleteMapping("/products/model/{uuid}")
+    @Operation(summary = "依子項ID刪除商品子項")
+    public ResponseEntity<?> deleteModelById(
+        @PathVariable(name ="uuid") String modelUUID
+    ) {
+        try{
+            productsService.deleteProductModel(modelUUID);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
+        }
+    }
+
+    @PostMapping("/products/{uuid}/model")
+    @Operation(summary = "依主項ID新增商品子項")
+    public ResponseEntity<?> addProductModelByProductId(
+        @PathVariable(name ="uuid") String uuid,
+        @RequestBody ProductModelRequest model
+    ) {
+        try{
+            productsService.addProductModelByProductId(uuid,model);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
+        }
+    }
+
 }
