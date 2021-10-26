@@ -161,7 +161,11 @@ public class ProductsAccessingJobServices {
 
         try{
 
-            List<Products> productList  = productsMapper.select(x -> x.where(ProductsDynamicSqlSupport.originItemId,isEqualTo(itemId)));
+            List<Products> productList  = productsMapper.select(x -> x.where(
+                ProductsDynamicSqlSupport.originItemId,isEqualTo(itemId))
+                .and(ProductsDynamicSqlSupport.edited,isEqualTo(false))
+            );
+
 
             if(productList.size()>0){
                 log.warn("itemid {} repeat , ignore it", itemId);
