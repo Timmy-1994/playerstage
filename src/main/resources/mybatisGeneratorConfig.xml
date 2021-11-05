@@ -38,6 +38,9 @@
             <columnOverride column="shipments_id" javaType="java.util.UUID"/>
             <columnOverride column="categories_id" javaType="java.util.UUID"/>
             <columnOverride column="product_model_id" javaType="java.util.UUID"/>
+            <columnOverride column="user_id" javaType="java.util.UUID"/>
+            <columnOverride column="role_id" javaType="java.util.UUID"/>
+            <columnOverride column="permission_id" javaType="java.util.UUID"/>
         </table>
     </context>
 </generatorConfiguration>

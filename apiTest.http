@@ -40,3 +40,26 @@ User-Agent: 'Googlebot'
 
 ### 賣場分類 use : shop_catgory_id
 GET {{url}}/shop/get_categories?limit=20&offset=0&shopid={{shopid}}
+
+### signup
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+    "username":"timmy",
+    "password":"7878787878"
+}
+
+### sigin 
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+    "username":"timmy",
+    "password":"7878787878"
+}
+
+
+### get access token accessToken by refresh token from http only cookie
+GET http://localhost:8080/auth/accessToken
+Cookie: ?
