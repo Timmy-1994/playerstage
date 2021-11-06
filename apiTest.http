@@ -62,4 +62,4 @@ Content-Type: application/json
 
 ### get access token accessToken by refresh token from http only cookie
 GET http://localhost:8080/auth/accessToken
-Cookie: ?
+cookie: refreshToken=98d64e46-6f0e-45a7-989e-d188e2ddf2ad; Secure; HttpOnly

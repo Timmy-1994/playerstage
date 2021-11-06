@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import com.playerstage.playerstage.jobs.dto.ProductDetail;
 
@@ -24,6 +26,7 @@ public class ProductsAccessingJob {
     @Autowired
     ProductsAccessingJobServices productsAccessingServices;
 
+    @PreAuthorize("hasRole('USER')")
     @Scheduled(cron="0 0 2 * * *")
     @PostMapping("/jobs")
     @Operation(summary = "執行取得蝦皮商品排程任務")

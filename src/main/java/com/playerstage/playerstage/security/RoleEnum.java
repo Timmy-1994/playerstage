@@ -1,7 +1,7 @@
 package com.playerstage.playerstage.security;
 
 public enum RoleEnum {
-    SUPER,
-    ADMIN,
-    USER
+    ROLE_SUPER,
+    ROLE_ADMIN,
+    ROLE_USER
 }

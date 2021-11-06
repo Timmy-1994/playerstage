@@ -68,7 +68,7 @@ public class UserController {
         }
         
         try{
-            User usr = userDetailsServiceImpl.addUser(signUpRequest,RoleEnum.USER);
+            User usr = userDetailsServiceImpl.addUser(signUpRequest,RoleEnum.ROLE_USER);
             
             return ResponseEntity.ok(usr);
         }catch(Exception e){
