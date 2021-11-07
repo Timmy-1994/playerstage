@@ -12,14 +12,18 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "tier_index",
-    "group_buy_info"
+    "group_buy_info",
+    "is_pre_order",
+    "estimated_days"
 })
 @Generated("jsonschema2pojo")
 public class Extinfo {
-
     @JsonProperty("tier_index")
     public List<Integer> tierIndex = null;
     @JsonProperty("group_buy_info")
     public Object groupBuyInfo;
-
+    @JsonProperty("is_pre_order")
+    public boolean isPreOrder;
+    @JsonProperty("estimated_days")
+    public int estimatedDays;
 }

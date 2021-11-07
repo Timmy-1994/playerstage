@@ -9,7 +9,7 @@ import com.playerstage.playerstage.dto.*;
 import com.playerstage.playerstage.mappers.*;
 import com.playerstage.playerstage.models.*;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +53,7 @@ public class ProductsService {
         ProductModels destModel = new ProductModels(){{
             setUuid(modelUUID);
         }};
-        BeanUtils.copyProperties(destModel, model);
+        BeanUtils.copyProperties(model,destModel);
 
         productModelsMapper.updateByPrimaryKeySelective(destModel);
 
@@ -75,7 +75,7 @@ public class ProductsService {
             setProductsId(productUUID);
         }};
 
-        BeanUtils.copyProperties(destModel, modelReq);
+        BeanUtils.copyProperties(modelReq,destModel);
 
         productModelsMapper.insert(destModel);
     }
@@ -87,7 +87,7 @@ public class ProductsService {
             setUuid(uuid);
             setEdited(true);
         }};
-        BeanUtils.copyProperties(dest, productReq);
+        BeanUtils.copyProperties(productReq,dest);
         
         productsMapper.insert(dest);
     }
