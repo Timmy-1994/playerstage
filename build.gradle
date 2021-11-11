@@ -44,7 +44,9 @@ dependencies {
 }
 
 def props = new Properties()
-file("/src/main/resources/application.properties").withInputStream { props.load(it) }
+// use ./gradlew -Dspring.profile.active="" to assign env
+def env = System.getProperty("spring.profiles.active")
+file("./src/main/resources/application${env?"-"+env:""}.properties").withInputStream { props.load(it) }
 
 tasks.register("mbgenerator", JavaExec) {
 	classpath sourceSets.main.runtimeClasspath

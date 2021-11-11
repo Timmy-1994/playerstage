@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import java.util.Collections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -40,7 +41,8 @@ public class SwaggerConfigurer {
                             .scopes(new AuthorizationScope[0])
                             .reference("JWT")
                             .build()))
-                    .operationSelector(o -> o.requestMappingPattern().matches("/.*"))
+                    // only for which need authentication
+                    .operationSelector(o -> o.findAnnotation(PreAuthorize.class).isPresent())
                     .build()
                 )
             )

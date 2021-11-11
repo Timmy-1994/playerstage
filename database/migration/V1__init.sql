@@ -1,5 +1,3 @@
-USE `playerstage`;
-
 CREATE TABLE IF NOT EXISTS `products` (
   `uuid` BINARY(16) NOT NULL PRIMARY KEY,
   `name` VARCHAR(100) NOT NULL,

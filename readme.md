@@ -1,3 +1,5 @@
+![workflow](https://github.com/Timmy-1994/playerstage/actions/workflows/main.yml/badge.svg?branch=master)
+
 ### TODO
 - [ ] check the syntas in `build.gradle` about dependencies duplicate ...etc
 

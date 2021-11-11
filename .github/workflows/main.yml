@@ -1,0 +1,44 @@
+name: Deploy to AlwaysData
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+        
+      # update database by gradlew task flyway ( use specific env ) ; 
+      # becare -D first than gralde task
+      - name: Migrate Database for alwaysdata
+        run: ./gradlew -Dspring.profiles.active="alwaysdata-dev" flywayMigrate
+
+      # compile the jar then send to alwaysdata by ftp extentsion
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: ftp-sisyphean.alwaysdata.net
+          username: ${{secrets.FTP_USERNAME}}
+          password: ${{secrets.FTP_PASSWORD}}
+          local-dir: ./build/libs/
+          server-dir: /
+
+      # see https://help.alwaysdata.com/en/api/usage/
+      - name: restart application
+        run: curl -X POST --basic --user "${{secrets.ALWAYSDATA_ACCESS_TOKEN}}:" https://api.alwaysdata.com/v1/site/672619/restart/
