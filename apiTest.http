@@ -47,7 +47,7 @@ Content-Type: application/json
 
 {
     "username":"timmy",
-    "password":"7878787878"
+    "password":"123456789"
 }
 
 ### sigin 
@@ -56,10 +56,10 @@ Content-Type: application/json
 
 {
     "username":"timmy",
-    "password":"7878787878"
+    "password":"123456789"
 }
 
 
 ### get access token accessToken by refresh token from http only cookie
 GET http://localhost:8080/auth/accessToken
-cookie: refreshToken=98d64e46-6f0e-45a7-989e-d188e2ddf2ad; Secure; HttpOnly
+cookie: refreshToken=0f548c95-a9a3-471e-9496-2758a1a202e5; Secure; HttpOnly

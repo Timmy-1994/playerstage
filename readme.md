@@ -55,3 +55,6 @@
 * https://www.baeldung.com/java-swagger-api-description-deprecated
 
 ### [unit test](https://site.mockito.org/)
+
+### jwtt
+[jwtt in java11](https://pradipta.github.io/jaxb-with-java-11/)
