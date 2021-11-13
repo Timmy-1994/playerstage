@@ -24,7 +24,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +37,6 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 
 @Api(tags="用戶權限")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
 public class UserController {
@@ -106,13 +104,13 @@ public class UserController {
         RefreshToken refreshTokenModel = refreshTokenService.findByToken(refreshToken).orElse(null);
         
         if(refreshTokenModel == null){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Refresh token is not exsist");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token is not exsist");
         }
         
         User user = refreshTokenService.getExpVerifyedUser(refreshTokenModel).orElseGet(null);
 
         if(user == null){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Refresh token has expired or user not exsist");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Refresh token has expired or user not exsist");
         }
 
     
