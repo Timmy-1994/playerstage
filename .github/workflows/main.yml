@@ -28,7 +28,7 @@ jobs:
 
       # compile the jar then send to alwaysdata by ftp extentsion
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew bootJar
 
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
