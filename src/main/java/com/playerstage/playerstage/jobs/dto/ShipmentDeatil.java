@@ -21,12 +21,8 @@ import lombok.Data;
 @Generated("jsonschema2pojo")
 public class ShipmentDeatil {
 
-    @JsonProperty("free_shipping")
-    public Object freeShipping;
-    @JsonProperty("shipping_fee_info")
-    public ShippingFeeInfo shippingFeeInfo;
-    @JsonProperty("show_shipping_to")
-    public Boolean showShippingTo;
+    @JsonProperty("product_info")
+    public ShipmentProductInfo productInfo;
     @JsonProperty("ungrouped_channel_infos")
     public List<UngroupedChannelInfo> ungroupedChannelInfos = null;
     @JsonProperty("grouped_channel_infos_by_service_type")

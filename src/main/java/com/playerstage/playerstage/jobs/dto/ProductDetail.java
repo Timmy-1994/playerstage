@@ -104,6 +104,7 @@ import lombok.Data;
     "is_cc_installment_payment_eligible",
     "is_non_cc_installment_payment_eligible",
     "flash_sale",
+    "global_sold",
     "upcoming_flash_sale",
     "deep_discount",
     "has_low_fulfillment_rate",
@@ -300,6 +301,8 @@ import lombok.Data;
         public Boolean isNonCcInstallmentPaymentEligible;
         @JsonProperty("flash_sale")
         public Object flashSale;
+        @JsonProperty("global_sold")
+        public Object globalSold;
         @JsonProperty("upcoming_flash_sale")
         public Object upcomingFlashSale;
         @JsonProperty("deep_discount")

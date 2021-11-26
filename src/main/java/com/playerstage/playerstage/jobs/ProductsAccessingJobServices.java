@@ -275,10 +275,10 @@ public class ProductsAccessingJobServices {
                     shipments.setName(name);
     
                     int max = Optional.ofNullable(ungroupedChannelInfo.getMaxPrice()).orElse(0);
-                    int mim = Optional.ofNullable(ungroupedChannelInfo.getMinPrice()).orElse(0);
+                    int min = Optional.ofNullable(ungroupedChannelInfo.getMinPrice()).orElse(0);
     
-                    shipments.setMaxPrice(max);
-                    shipments.setMinPrice(mim);
+                    shipments.setMaxPrice(max>0?max/100000:max);
+                    shipments.setMinPrice(min>0?min/100000:min);
     
                     ChannelDeliveryInfo channelDeliveryInfo = ungroupedChannelInfo.getChannelDeliveryInfo();
                     
@@ -297,6 +297,8 @@ public class ProductsAccessingJobServices {
             return shipUUIDs;
 
         }catch(Exception e){
+            log.error("common shipments save fail \nitemid {} ",itemId);
+            e.printStackTrace();
             return shipUUIDs;
         }
     }
